@@ -14,22 +14,22 @@ import com.validator.trade.validator.ValidatorService;
 
 @RestController
 public class TradeValidationController {
-	
+
 	@Autowired
 	private ValidatorService<Trade, TradeValidationResult> tradeValidatorService;
-	
+
 	@GetMapping("/trade")
-    public TradeValidationResult validateTradeGet() {
-        return tradeValidatorService.validate(null);
-    }
-	
+	public TradeValidationResult validateTradeGet() {
+		return tradeValidatorService.validate(null);
+	}
+
 	@PostMapping("/trade")
-    public TradeValidationResult validateTrade(@RequestBody Trade trade) {
-        return tradeValidatorService.validate(trade);
-    }
-    
-    @PostMapping("/trades")
-    public Collection<TradeValidationResult> validateTrades(@RequestBody Collection<Trade> trades) {
-    	return tradeValidatorService.validateMultiple(trades);
-    }
+	public TradeValidationResult validateTrade(@RequestBody Trade trade) {
+		return tradeValidatorService.validate(trade);
+	}
+
+	@PostMapping("/trades")
+	public Collection<TradeValidationResult> validateTrades(@RequestBody Collection<Trade> trades) {
+		return tradeValidatorService.validateMultiple(trades);
+	}
 }
