@@ -4,6 +4,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.google.common.collect.Lists;
 import com.validator.trade.TradeValidatorApp;
 import com.validator.trade.model.Trade;
-import com.validator.trade.model.TradeValidationResults;
+import com.validator.trade.model.TradeType;
+import com.validator.trade.model.result.TradeValidationResults;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TradeValidationControllerTest {
@@ -27,8 +29,13 @@ public class TradeValidationControllerTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
+	
+	private final Trade dummySpotTrade = new Trade();
 
-	private final Trade dummySpotTrade = new Trade("SPOT");
+	@Before
+	public void init() {
+		dummySpotTrade.setType(TradeType.SPOT);
+	}
 	
 	@Test
 	public void returnsSuccessWhileValidatingASingleTrade() throws Exception {

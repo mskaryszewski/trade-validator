@@ -1,6 +1,6 @@
 package com.validator.trade.validator;
 
-public class ValuationDateValidator implements Validator {
+public class CurrencyValidator implements Validator {
 
 	@Override
 	public void validate() {

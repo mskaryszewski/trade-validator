@@ -1,4 +1,4 @@
-package com.validator.trade.model;
+package com.validator.trade.model.result;
 
 import java.util.ArrayList;
 

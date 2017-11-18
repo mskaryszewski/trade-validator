@@ -1,15 +1,15 @@
 tradeValidation:
     validatorsForTradeType:
         ALL: 
-            - asdasd
-            - 22212
+            - ValueDateNotBeforeTradeDateValidator
+            - ValueDateNotOnNonWorkingDayForCurrencValidator
+            - CounterPartyValidator
+            - CurrencyValidator
         SPOT: 
-            - 1111
-            - 23123
-            - 443223
-        FOWARD:
-            - asd
+            - ValueDateAgainstProductTypeValidator
+        FORWARD:
+            - ValueDateAgainstProductTypeValidator
         OPTION:
-            - 22211
-            - 123123
-            - asdasd
+            - OptionStyleValidator
+            - OptionExcerciseDateValidator
+            - OptionExpiryDateAndPremiumDateValidator

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.validator.trade.TradeValidatorApp;
 import com.validator.trade.model.Trade;
-import com.validator.trade.model.TradeValidationResult;
+import com.validator.trade.model.result.TradeValidationResult;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,6 +21,6 @@ public class SpotTradeValidatorTest {
 	
 	@Test
 	public void returnsSuccessWhileValidatingASingleTrade() {
-		tradeValidator.validate(new Trade("SPOT"));
+		tradeValidator.validate(new Trade());
 	}
 }
