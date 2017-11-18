@@ -1,0 +1,15 @@
+tradeValidation:
+    validatorsForTradeType:
+        ALL: 
+            - asdasd
+            - 22212
+        SPOT: 
+            - 1111
+            - 23123
+            - 443223
+        FOWARD:
+            - asd
+        OPTION:
+            - 22211
+            - 123123
+            - asdasd
