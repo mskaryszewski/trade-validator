@@ -47,6 +47,6 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	@Autowired
 	public void registerTradeValidators() {
 		tradeValidators = tradeValidatorsYamlRegistryBuilder.getTradeValidators();
-		logger.info("Trade Validator Registry: {}", tradeValidators);
+		logger.info("All registered trade validators: {}", tradeValidators);
 	}
 }
