@@ -17,7 +17,7 @@ import com.validator.trade.model.result.TradeValidationResult;
 public class SpotTradeValidatorTest {
 
 	@Autowired
-	private ValidatorService<Trade, TradeValidationResult> tradeValidator;
+	private ValidationService<Trade, TradeValidationResult> tradeValidator;
 	
 	@Test
 	public void returnsSuccessWhileValidatingASingleTrade() {

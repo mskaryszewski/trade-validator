@@ -1,4 +1,4 @@
-package com.validator.trade.validator.registry;
+package com.validator.trade.validator.registry.yaml;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,6 +12,8 @@ import com.google.common.collect.Maps;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
 import com.validator.trade.validator.Validator;
+import com.validator.trade.validator.registry.api.TradeValidationRegistry;
+import com.validator.trade.validator.registry.api.TradeValidatorsRegistryBuilder;
 
 /**
  * Registry which maps type of trade (Option, Spot, Forward) to a collection of Validators.
@@ -19,9 +21,9 @@ import com.validator.trade.validator.Validator;
  *
  */
 @Component
-public class TradeValidatorsRegistry {
+public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidatorsRegistry.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidatorYamlRegistry.class);	
 	
 	@Autowired
 	private TradeValidatorsRegistryBuilder tradeValidatorsYamlRegistryBuilder;
@@ -37,19 +39,14 @@ public class TradeValidatorsRegistry {
 	 * @param tradeType
 	 * @return
 	 */
-	public Collection<Validator> getTradeValidatorsForATrade(Trade trade) {
+	@Override
+	public Collection<Validator> getValidators(Trade trade) {
 		return tradeValidators.get(trade.getType());
 	}
 
-	/**
-	 * Sets trade validator registry used to choose collection of validators for a given product type.
-	 * Intentional RuntimeException is thrown if application.yml is configured incorrectly in the following situations:
-	 * - unknown tradeType was introduced (example: typo by introducing 'FORARD' instead of 'FORWARD')
-	 * - incorrect Validator class name was configured, example: CurValidator instead of CurrencyValidator
-	 */
 	@Autowired
-	public void setTradeValidators() {
+	public void registerTradeValidators() {
 		tradeValidators = tradeValidatorsYamlRegistryBuilder.getTradeValidators();
-		logger.info("Trade Validators Registry: {}", tradeValidators);
+		logger.info("Trade Validator Registry: {}", tradeValidators);
 	}
 }

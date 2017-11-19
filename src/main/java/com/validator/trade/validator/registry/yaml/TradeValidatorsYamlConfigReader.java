@@ -1,10 +1,12 @@
-package com.validator.trade.validator.registry;
+package com.validator.trade.validator.registry.yaml;
 
 import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import com.validator.trade.validator.registry.api.TradeValidatorsConfigReader;
 
 /**
  * Object which parses application.yml config file.

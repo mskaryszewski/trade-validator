@@ -12,7 +12,6 @@ package com.validator.trade.model;
  *
  */
 public enum TradeType {
-	ALL,
 	SPOT,
 	FORWARD,
 	OPTION;

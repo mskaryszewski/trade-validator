@@ -1,4 +1,4 @@
-package com.validator.trade.validator.registry;
+package com.validator.trade.validator.registry.api;
 
 import java.util.Collection;
 import java.util.Map;

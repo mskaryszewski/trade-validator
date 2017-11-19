@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
-import com.validator.trade.validator.ValidatorService;
+import com.validator.trade.validator.ValidationService;
 
 @RestController
 public class TradeValidationController {
 
 	@Autowired
-	private ValidatorService<Trade, TradeValidationResult> tradeValidatorService;
+	private ValidationService<Trade, TradeValidationResult> tradeValidatorService;
 
 	@PostMapping("/trade")
 	public TradeValidationResult validateTrade(@RequestBody Trade trade) {

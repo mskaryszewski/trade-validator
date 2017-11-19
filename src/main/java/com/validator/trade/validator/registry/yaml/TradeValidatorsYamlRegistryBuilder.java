@@ -1,12 +1,10 @@
-package com.validator.trade.validator.registry;
+package com.validator.trade.validator.registry.yaml;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +12,11 @@ import com.google.common.collect.Maps;
 import com.validator.trade.model.TradeType;
 import com.validator.trade.utils.ValidatorUtils;
 import com.validator.trade.validator.Validator;
+import com.validator.trade.validator.registry.api.TradeValidatorsConfigReader;
+import com.validator.trade.validator.registry.api.TradeValidatorsRegistryBuilder;
 
 @Component
 public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegistryBuilder  {
-	
-private static final Logger logger = LoggerFactory.getLogger(TradeValidatorsYamlRegistryBuilder.class);	
 	
 	@Autowired
 	private TradeValidatorsConfigReader tradeValidatorsYamlConfigReader;
@@ -26,14 +24,19 @@ private static final Logger logger = LoggerFactory.getLogger(TradeValidatorsYaml
 	private Map<String, Collection<Validator>> tradeValidators = Maps.newHashMap();
 	
 	/**
+	 * Builds trade to collection of Validators Registry.
+	 * Intentional RuntimeException is thrown if application.yml is configured incorrectly in the following situations:
+	 * - unknown tradeType was introduced (example: typo by introducing 'FORARD' instead of 'FORWARD')
+	 * - incorrect Validator class name was configured, example: CurValidator instead of CurrencyValidator
+	 * 
 	 * @return Configuration of trade validators for a given type of trade.
 	 */
 	@Override
 	public Map<TradeType, Collection<Validator>> getTradeValidators() {
-		logger.debug("Trade validators: {}", tradeValidators);
 		return tradeValidators
 					.entrySet()
 					.stream()
+					.filter(e -> !ALL.equals(e.getKey()))
 					.collect(Collectors.toMap(
 							e -> TradeType.valueOf(e.getKey()),
 							Map.Entry::getValue
