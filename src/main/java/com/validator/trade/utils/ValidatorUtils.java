@@ -27,7 +27,7 @@ public class ValidatorUtils {
 	 * @param className
 	 * @return
 	 */
-	private static Validator saveConvertStringToValidatorInstance(String className) {
+	public static Validator safeConvertStringToValidatorInstance(String className) {
 		try {
 			return convertStringToValidatorInstance(className);
 		} catch (Exception e) {
@@ -41,9 +41,9 @@ public class ValidatorUtils {
 	 * @param classNames
 	 * @return
 	 */
-	public static Collection<Validator> saveConvertCollectionOfStringToCollectionsOfValidatorInstances(Collection<String> classNames) {
+	public static Collection<Validator> safeConvertCollectionOfStringToCollectionsOfValidatorInstances(Collection<String> classNames) {
 		return classNames.stream()
-				.map(ValidatorUtils::saveConvertStringToValidatorInstance)
+				.map(ValidatorUtils::safeConvertStringToValidatorInstance)
 				.collect(Collectors.toList());
 	}
 	

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.TradeValidationResults;
+import com.validator.trade.validator.registry.TradeValidatorsRegistry;
 
 @Service
 public class TradeValidatorService implements ValidatorService<Trade, TradeValidationResult> {
@@ -21,7 +22,7 @@ public class TradeValidatorService implements ValidatorService<Trade, TradeValid
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		Collection<Validator> validators = TradeValidatorsregistry.getTradeValidatorsForATrade(trade.getType());
+		Collection<Validator> validators = TradeValidatorsregistry.getTradeValidatorsForATrade(trade);
 		logger.debug("validators: {}", validators);
 		return null;
 	}
