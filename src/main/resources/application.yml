@@ -5,11 +5,11 @@ tradeValidation:
             - ValueDateNotOnNonWorkingDayForCurrencValidator
             - CounterPartyValidator
             - CurrencyValidator
-        SPOT: 
+        Spot: 
             - ValueDateAgainstProductTypeValidator
-        FORWARD:
+        Forward:
             - ValueDateAgainstProductTypeValidator
-        OPTION:
+        VanillaOption:
             - OptionStyleValidator
             - OptionExcerciseDateValidator
             - OptionExpiryDateAndPremiumDateValidator

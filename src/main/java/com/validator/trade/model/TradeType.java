@@ -11,7 +11,15 @@ package com.validator.trade.model;
  *
  */
 public enum TradeType {
-	SPOT,
-	FORWARD,
-	OPTION;
+	Spot,
+	Forward,
+	VanillaOption;
+	
+	/**
+	 * These Strings are required for Trade model because Jackson forces us not to use Enums but Strings
+	 * to configure polymorphism.
+	 */
+	public static final String SPOT           = "Spot";
+	public static final String FORWARD        = "Forward";
+	public static final String VANILLA_OPTION = "VanillaOption";
 }

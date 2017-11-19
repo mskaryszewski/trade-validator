@@ -1,19 +1,23 @@
 package com.validator.trade.model.result;
 
-import java.util.UUID;
+import com.validator.trade.model.Trade;
 
 public class ValidationError {
 	
 	private final String errorMessage;
-	private final UUID tradeId;
+	private final Trade  trade;
 	
-	public ValidationError(String errorMessage, UUID tradeId) {
+	public ValidationError withErrorMessageAndTrade(String errorMessage, Trade trade) {
+		return new ValidationError(errorMessage, trade);
+	}
+	
+	private ValidationError(String errorMessage, Trade trade) {
 		this.errorMessage = errorMessage;
-		this.tradeId = tradeId;
+		this.trade = trade;
 	}
 
 	@Override
 	public String toString() {
-		return "ValidationError [errorMessage=" + errorMessage + ", tradeId=" + tradeId + "]";
+		return "ValidationError [errorMessage=" + errorMessage + ", trade=" + trade + "]";
 	}
 }

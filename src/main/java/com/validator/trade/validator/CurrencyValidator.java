@@ -7,6 +7,6 @@ public class CurrencyValidator implements TradeValidator {
 
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		return null;
+		return TradeValidationResult.success();
 	}
 }

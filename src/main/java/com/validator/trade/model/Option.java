@@ -30,7 +30,7 @@ public class Option extends Trade {
 	private LocalDate premiumDate;
 	
 	public Option() {
-		type = TradeType.OPTION;
+		type = TradeType.VanillaOption;
 	}
 
 	public String getStyle() {

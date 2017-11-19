@@ -7,6 +7,6 @@ public class ValueDateNotOnNonWorkingDayForCurrencValidator implements TradeVali
 
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		return null;
+		return TradeValidationResult.success();
 	}
 }

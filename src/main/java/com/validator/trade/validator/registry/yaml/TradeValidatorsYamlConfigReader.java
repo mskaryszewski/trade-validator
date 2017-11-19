@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import com.validator.trade.validator.registry.api.TradeValidatorsConfigReader;
 
 /**
- * Object which parses application.yml config file.
- * Holds a list of configured trade validators assigned to a specific product type.
+ * Object which parses application.yml config file and builds
+ * a map of trade validators for a specific type of trade.
  * @author Michal
  *
  */

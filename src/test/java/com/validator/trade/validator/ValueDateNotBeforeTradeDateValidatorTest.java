@@ -12,7 +12,7 @@ public class ValueDateNotBeforeTradeDateValidatorTest {
 
 	@Test
 	public void valueDateEqualToTradeDateTest() {
-		Trade trade = new Trade();
+		Trade trade = new Spot();
 		TradeValidationResult result = validator.validate(trade);
 	}
 	

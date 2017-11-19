@@ -6,15 +6,39 @@ import com.google.common.collect.Lists;
 
 public class TradeValidationResult {
 	
-	private Collection<ValidationError> validationErrors = Lists.newArrayList();
-	public enum TradeValidationStatus { SUCCESS, FAILURE };
+	private final Collection<ValidationError> validationErrors = Lists.newArrayList();
+	private TradeValidationStatus validationStatus;
+	
+	public static TradeValidationResult success() {
+		return new TradeValidationResult(TradeValidationStatus.VALIDATION_OK);
+	}
+	
+	public static TradeValidationResult failure(ValidationError error) {
+		return new TradeValidationResult(TradeValidationStatus.VALIDATION_NOK, error);
+	}
+	
+	public TradeValidationResult() {
+	}
+	
+	private TradeValidationResult(TradeValidationStatus status) {
+		this.validationStatus = status;
+	}
+	
+	private TradeValidationResult(TradeValidationStatus status, ValidationError error) {
+		this(status);
+		this.addError(error);
+	}
 	
 	public boolean validationFailed() {
 		return !validationErrors.isEmpty();
 	}
 	
 	public TradeValidationStatus getStatus() {
-		return validationErrors.isEmpty() ? TradeValidationStatus.SUCCESS : TradeValidationStatus.FAILURE;
+		return validationStatus;
+	}
+	
+	public void setStatus(TradeValidationStatus validationStatus) {
+		this.validationStatus = validationStatus;
 	}
 	
 	public void addError(ValidationError error) {

@@ -100,6 +100,8 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	
 	/**
 	 * Populates common validators to all validators specific for a given product type.
+	 * The sequence of validators does not matter (which validators should be used firstly - common ones or tradeType-specific?)
+	 * because always all validators are used.
 	 */
 	private void populateAllTradeValidators() {
 		tradeValidators
@@ -109,5 +111,8 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 			.forEach(e -> e.getValue().addAll(tradeValidators.get(ALL)));
 	}
 	
+	/**
+	 * Constant String used to populate common validators to all validators specific for a given type of trade.
+	 */
 	private final static String ALL = "ALL";
 }
