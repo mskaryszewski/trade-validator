@@ -1,6 +1,7 @@
 package com.validator.trade.validator;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,26 @@ public class TradeValidationService implements ValidationService {
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
+		
+		logger.debug("Trade validation started for trade {}", trade);
+		TradeValidationResult tradeValidationResult = new TradeValidationResult();
 		Collection<TradeValidator> validators = tradeValidatorYamlRegistry.getValidators(trade);
-		logger.debug("validators: {} for trade type {}", validators, trade.getType());
-		return null;
+		
+		validators.parallelStream()
+				  .map(tradeValidator -> tradeValidator.validate(trade))
+				  .filter(TradeValidationResult::validationFailed)
+				  .collect(Collectors.toList())
+				  .forEach(validationResult -> tradeValidationResult.addErrors(validationResult.getValidationErrors()));
+		
+		logger.debug("TradeValidationResult {} for trade {}", tradeValidationResult, trade);
+		return tradeValidationResult;
 	}
 
 	@Override
 	public Collection<TradeValidationResult> validateMultiple(Collection<Trade> entities) {
-		return null;
+		return entities
+				.parallelStream()
+                .map(this::validate)
+                .collect(Collectors.toList());
 	}
 }

@@ -11,7 +11,7 @@ public class Trade {
 	
 	private String ccyPair;
 	
-	private TradeType type;
+	protected TradeType type;
 	
 	private String direction;
 	
@@ -30,8 +30,6 @@ public class Trade {
 	private String legalEntity;
 	
 	private String trader;
-	
-	
 	
 	public String getCustomer() {
 		return customer;

@@ -17,12 +17,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Lists;
 import com.validator.trade.TradeValidatorApp;
+import com.validator.trade.model.Spot;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
 import com.validator.trade.model.result.TradeValidationResults;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TradeValidationControllerTest1 {
+public class TradeValidationControllerTest3 {
 
 	@LocalServerPort
 	private int port;
@@ -30,7 +31,7 @@ public class TradeValidationControllerTest1 {
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 	
-	private final Trade dummySpotTrade = new Trade();
+	private final Trade dummySpotTrade = new Spot();
 
 	@Before
 	public void init() {
