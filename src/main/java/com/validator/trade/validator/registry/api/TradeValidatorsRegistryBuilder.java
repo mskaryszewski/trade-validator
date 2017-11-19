@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.validator.trade.model.TradeType;
-import com.validator.trade.validator.Validator;
+import com.validator.trade.validator.TradeValidator;
 
 public interface TradeValidatorsRegistryBuilder {
 	
-	public Map<TradeType, Collection<Validator>> getTradeValidators();
+	public Map<TradeType, Collection<TradeValidator>> getTradeValidators();
 	
 }

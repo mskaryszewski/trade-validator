@@ -1,8 +1,12 @@
 package com.validator.trade.validator;
 
-public class ValueDateNotOnNonWorkingDayForCurrencValidator implements Validator {
+import com.validator.trade.model.Trade;
+import com.validator.trade.model.result.TradeValidationResult;
+
+public class ValueDateNotOnNonWorkingDayForCurrencValidator implements TradeValidator {
 
 	@Override
-	public void validate() {
+	public TradeValidationResult validate(Trade trade) {
+		return null;
 	}
 }

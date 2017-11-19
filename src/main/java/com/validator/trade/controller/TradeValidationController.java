@@ -15,7 +15,7 @@ import com.validator.trade.validator.ValidationService;
 public class TradeValidationController {
 
 	@Autowired
-	private ValidationService<Trade, TradeValidationResult> tradeValidatorService;
+	private ValidationService tradeValidatorService;
 
 	@PostMapping("/trade")
 	public TradeValidationResult validateTrade(@RequestBody Trade trade) {

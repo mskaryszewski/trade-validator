@@ -2,9 +2,18 @@ package com.validator.trade.validator;
 
 import java.util.Collection;
 
-public interface ValidationService<ENTITY, RETURN_TYPE> {
+import com.validator.trade.model.Trade;
+import com.validator.trade.model.result.TradeValidationResult;
+
+/**
+ * @author Michal
+ *
+ * @param <ENTITY> Entity to be validated: Trade, Product, Currency.
+ * At the time being used only to validate Trades.
+ */
+public interface ValidationService {
 	
-	RETURN_TYPE validate(ENTITY entity);
-	Collection<RETURN_TYPE> validateMultiple(Collection<ENTITY> entities);
+	TradeValidationResult validate(Trade entity);
+	Collection<TradeValidationResult> validateMultiple(Collection<Trade> entities);
 	
 }

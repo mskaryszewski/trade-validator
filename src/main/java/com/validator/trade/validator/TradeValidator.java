@@ -3,10 +3,8 @@ package com.validator.trade.validator;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 
-public class OptionStyleValidator implements TradeValidator {
+public interface TradeValidator {
+	
+	public TradeValidationResult validate(Trade trade);
 
-	@Override
-	public TradeValidationResult validate(Trade trade) {
-		return null;
-	}
 }

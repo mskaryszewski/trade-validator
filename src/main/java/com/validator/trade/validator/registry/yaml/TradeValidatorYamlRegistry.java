@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Maps;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
-import com.validator.trade.validator.Validator;
+import com.validator.trade.validator.TradeValidator;
 import com.validator.trade.validator.registry.api.TradeValidationRegistry;
 import com.validator.trade.validator.registry.api.TradeValidatorsRegistryBuilder;
 
@@ -28,9 +28,9 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	@Autowired
 	private TradeValidatorsRegistryBuilder tradeValidatorsYamlRegistryBuilder;
 	
-	private Map<TradeType, Collection<Validator>> tradeValidators = Maps.newHashMap();
+	private Map<TradeType, Collection<TradeValidator>> tradeValidators = Maps.newHashMap();
 
-	public Map<TradeType, Collection<Validator>> getTradeValidators() {
+	public Map<TradeType, Collection<TradeValidator>> getTradeValidators() {
 		return tradeValidators;
 	}
 	
@@ -40,7 +40,7 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	 * @return
 	 */
 	@Override
-	public Collection<Validator> getValidators(Trade trade) {
+	public Collection<TradeValidator> getValidators(Trade trade) {
 		return tradeValidators.get(trade.getType());
 	}
 

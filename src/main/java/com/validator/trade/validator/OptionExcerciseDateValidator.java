@@ -1,8 +1,12 @@
 package com.validator.trade.validator;
 
-public class OptionExcerciseDateValidator implements Validator {
+import com.validator.trade.model.Trade;
+import com.validator.trade.model.result.TradeValidationResult;
+
+public class OptionExcerciseDateValidator implements TradeValidator {
 
 	@Override
-	public void validate() {
+	public TradeValidationResult validate(Trade trade) {
+		return null;
 	}
 }

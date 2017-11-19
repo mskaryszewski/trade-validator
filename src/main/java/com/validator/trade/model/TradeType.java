@@ -1,6 +1,5 @@
 package com.validator.trade.model;
 
-
 /**
  * Type of trade. Drawback of keeping this information as Enum instead of a plain String is that
  * introduction of new type of Trade is a bit more complicated - not only application.yml file needs to be configured

@@ -1,6 +1,6 @@
 package com.validator.trade.validator;
 
-public class CounterPartyValidator implements Validator {
+public class CounterPartyValidator implements TradeValidator {
 
 	@Override
 	public void validate() {

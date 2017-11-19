@@ -3,7 +3,7 @@ package com.validator.trade.utils;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.validator.trade.validator.Validator;
+import com.validator.trade.validator.TradeValidator;
 
 public class ValidatorUtils {
 	
@@ -15,8 +15,8 @@ public class ValidatorUtils {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 */
-	public static Validator convertStringToValidatorInstance(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		return (Validator) Class
+	public static TradeValidator convertStringToValidatorInstance(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		return (TradeValidator) Class
 				.forName(VALIDATOR_IMPLEMENTATION_LOCATION + className)
 				.newInstance();
 	}
@@ -27,7 +27,7 @@ public class ValidatorUtils {
 	 * @param className
 	 * @return
 	 */
-	public static Validator safeConvertStringToValidatorInstance(String className) {
+	public static TradeValidator safeConvertStringToValidatorInstance(String className) {
 		try {
 			return convertStringToValidatorInstance(className);
 		} catch (Exception e) {
@@ -41,7 +41,7 @@ public class ValidatorUtils {
 	 * @param classNames
 	 * @return
 	 */
-	public static Collection<Validator> safeConvertCollectionOfStringToCollectionsOfValidatorInstances(Collection<String> classNames) {
+	public static Collection<TradeValidator> safeConvertCollectionOfStringToCollectionsOfValidatorInstances(Collection<String> classNames) {
 		return classNames.stream()
 				.map(ValidatorUtils::safeConvertStringToValidatorInstance)
 				.collect(Collectors.toList());

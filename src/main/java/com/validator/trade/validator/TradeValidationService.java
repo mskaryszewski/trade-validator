@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
-import com.validator.trade.model.result.TradeValidationResults;
 import com.validator.trade.validator.registry.api.TradeValidationRegistry;
 
 @Service
-public class TradeValidationService implements ValidationService<Trade, TradeValidationResult> {
+public class TradeValidationService implements ValidationService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidationService.class);	
 	
@@ -22,13 +21,13 @@ public class TradeValidationService implements ValidationService<Trade, TradeVal
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		Collection<Validator> validators = tradeValidatorYamlRegistry.getValidators(trade);
+		Collection<TradeValidator> validators = tradeValidatorYamlRegistry.getValidators(trade);
 		logger.debug("validators: {} for trade type {}", validators, trade.getType());
 		return null;
 	}
 
 	@Override
-	public TradeValidationResults validateMultiple(Collection<Trade> entities) {
+	public Collection<TradeValidationResult> validateMultiple(Collection<Trade> entities) {
 		return null;
 	}
 }
