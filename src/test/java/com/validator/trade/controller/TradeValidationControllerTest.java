@@ -14,7 +14,6 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -29,6 +28,19 @@ import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.TradeValidationResults;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+/**
+ * Client Test Class.
+ * Consumes exposed RESTful web services.
+ * Purpose of this test class is just a verification if connection can be established, if all required endpoints are correct,
+ * if we can send some data and receive expected objects in return.
+ * 
+ * The main focus is not to validate specific object attribute values but if objects are returned at all.
+ * 
+ * In addition returned data is printed on console as objects and as JSON files.
+ * @author Michal
+ *
+ */
 public class TradeValidationControllerTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest.class);	
@@ -40,14 +52,14 @@ public class TradeValidationControllerTest {
 	private TestRestTemplate testRestTemplate;
 	
 	private final Trade dummySpotTrade = new Spot();
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper  = new ObjectMapper();
 
 	@Test
 	public void returnsSuccessWhileValidatingASingleTrade() throws Exception {
 		final String SINGLE_TRADE_URL = String.format("http://localhost:%d/trade", this.port);
 		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, dummySpotTrade, TradeValidationResult.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
-		then(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		then(response).hasNoNullFieldsOrProperties();
 	}
 	
 	@Test
@@ -57,7 +69,7 @@ public class TradeValidationControllerTest {
 		
 		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trades, TradeValidationResults.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
-		then(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		then(response).hasNoNullFieldsOrProperties();
 	}
 	
 	@Test
@@ -69,7 +81,7 @@ public class TradeValidationControllerTest {
 		
 		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trade, TradeValidationResult.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
-		then(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		then(response).hasNoNullFieldsOrProperties();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -82,10 +94,8 @@ public class TradeValidationControllerTest {
 		
 		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trades, TradeValidationResults.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
-		then(response.getgetStatusCode()).isEqualTo(HttpStatus.OK);
+		then(response).hasNoNullFieldsOrProperties();
 	}
-	
-	
 	
 	private void printResultOnConsoleAsObjectAndJson(TradeValidationResult validationResult) throws JsonProcessingException {
 		logger.info("Result Object {}", validationResult);
