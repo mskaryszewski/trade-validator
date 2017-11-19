@@ -2,7 +2,6 @@ package com.validator.trade.validator.registry;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Maps;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
-import com.validator.trade.utils.CollectionUtils;
-import com.validator.trade.utils.ValidatorUtils;
 import com.validator.trade.validator.Validator;
 
 /**
@@ -27,7 +24,7 @@ public class TradeValidatorsRegistry {
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidatorsRegistry.class);	
 	
 	@Autowired
-	private TradeValidatorsConfigReader tradeValidatorsConfigReader;
+	private TradeValidatorsRegistryBuilder tradeValidatorsYamlRegistryBuilder;
 	
 	private Map<TradeType, Collection<Validator>> tradeValidators = Maps.newHashMap();
 
@@ -41,9 +38,7 @@ public class TradeValidatorsRegistry {
 	 * @return
 	 */
 	public Collection<Validator> getTradeValidatorsForATrade(Trade trade) {
-		return CollectionUtils.concat(
-				tradeValidators.get(TradeType.ALL),
-				tradeValidators.get(trade.getType()));
+		return tradeValidators.get(trade.getType());
 	}
 
 	/**
@@ -54,14 +49,7 @@ public class TradeValidatorsRegistry {
 	 */
 	@Autowired
 	public void setTradeValidators() {
-		tradeValidators = tradeValidatorsConfigReader
-						.getValidatorsForTradeType()
-						.entrySet()
-						.stream()
-						.collect(Collectors.toMap(
-								e -> TradeType.valueOf(e.getKey()),
-								e -> ValidatorUtils.safeConvertCollectionOfStringToCollectionsOfValidatorInstances(e.getValue())
-					        ));
+		tradeValidators = tradeValidatorsYamlRegistryBuilder.getTradeValidators();
 		logger.info("Trade Validators Registry: {}", tradeValidators);
 	}
 }

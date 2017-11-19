@@ -22,7 +22,7 @@ import com.validator.trade.model.TradeType;
 import com.validator.trade.model.result.TradeValidationResults;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TradeValidationControllerTest {
+public class TradeValidationControllerTest3 {
 
 	@LocalServerPort
 	private int port;

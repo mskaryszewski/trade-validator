@@ -18,12 +18,12 @@ public class TradeValidatorService implements ValidatorService<Trade, TradeValid
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidatorService.class);	
 	
 	@Autowired
-	TradeValidatorsRegistry TradeValidatorsregistry;
+	TradeValidatorsRegistry tradeValidatorsRegistry;
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		Collection<Validator> validators = TradeValidatorsregistry.getTradeValidatorsForATrade(trade);
-		logger.debug("validators: {}", validators);
+		Collection<Validator> validators = tradeValidatorsRegistry.getTradeValidatorsForATrade(trade);
+		logger.debug("validators: {} for trade type {}", validators, trade.getType());
 		return null;
 	}
 

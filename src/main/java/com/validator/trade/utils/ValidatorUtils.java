@@ -48,7 +48,7 @@ public class ValidatorUtils {
 	}
 	
 	/**
-	 * As a convention all Validator implementations must be packaged inside com.validator.trade.validator. 
+	 * As a convention all Validator implementations must be placed inside com.validator.trade.validator package.
 	 */
 	private final static String VALIDATOR_IMPLEMENTATION_LOCATION = "com.validator.trade.validator.";
 }
