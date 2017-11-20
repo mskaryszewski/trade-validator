@@ -44,9 +44,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  * @author Michal
  *
  */
-public class TradeValidationControllerTest {
+public class TradeValidationControllerTest2 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest2.class);	
 
 	@LocalServerPort
 	private int port;
@@ -54,9 +54,24 @@ public class TradeValidationControllerTest {
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 	
+	/**
+	 * Dummy Trade used in tests
+	 */
 	private final Trade dummySpotTrade = new Spot();
-	private final ObjectMapper mapper  = new ObjectMapper();
+	
+	/**
+	 * Jackson InputStream to Object mapper
+	 */
+	private final ObjectMapper objectMapper  = new ObjectMapper().registerModule(new JavaTimeModule());
+	
+	/**
+	 * URL to validate a single trade
+	 */
 	private final String SINGLE_TRADE_URL   = "http://localhost:%d/trade";
+	
+	/**
+	 * URL to validate a multiple trades
+	 */
 	private final String BULK_OF_TRADES_URL = "http://localhost:%d/trades";
 
 	@Test
@@ -78,11 +93,35 @@ public class TradeValidationControllerTest {
 	}
 	
 	@Test
-	public void validateASingeTradeFromAFile() throws Exception {
+	public void validateSpotTradeFromFile() throws Exception {
 		final String URL = String.format(SINGLE_TRADE_URL, this.port);
 		
-		InputStream is = new ClassPathResource("single-trade.json").getInputStream();
-		Trade tradeFromJsonFile = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Trade.class);
+		InputStream is = new ClassPathResource("spot-trade.json").getInputStream();
+		Trade tradeFromJsonFile = objectMapper.readValue(is, Trade.class);
+		
+		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(URL, tradeFromJsonFile, TradeValidationResult.class);
+		printResultOnConsoleAsObjectAndJson(response.getBody());
+		then(response).hasNoNullFieldsOrProperties();
+	}
+	
+	@Test
+	public void validateForwardTradeFromFile() throws Exception {
+		final String URL = String.format(SINGLE_TRADE_URL, this.port);
+		
+		InputStream is = new ClassPathResource("forward-trade.json").getInputStream();
+		Trade tradeFromJsonFile = objectMapper.readValue(is, Trade.class);
+		
+		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(URL, tradeFromJsonFile, TradeValidationResult.class);
+		printResultOnConsoleAsObjectAndJson(response.getBody());
+		then(response).hasNoNullFieldsOrProperties();
+	}
+	
+	@Test
+	public void validateOptionTradeFromFile() throws Exception {
+		final String URL = String.format(SINGLE_TRADE_URL, this.port);
+		
+		InputStream is = new ClassPathResource("vanillaoption-trade.json").getInputStream();
+		Trade tradeFromJsonFile = objectMapper.readValue(is, Trade.class);
 		
 		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(URL, tradeFromJsonFile, TradeValidationResult.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
@@ -91,11 +130,11 @@ public class TradeValidationControllerTest {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void validateMultipleTradesFromAFile() throws Exception {
+	public void validateMultipleTradesFromFile() throws Exception {
 		final String URL = String.format(BULK_OF_TRADES_URL, this.port);
 		
 		InputStream is = new ClassPathResource("multiple-trades.json").getInputStream();
-		Collection<Trade> tradesFromJsonFile = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Collection.class);
+		Collection<Trade> tradesFromJsonFile = objectMapper.readValue(is, Collection.class);
 		
 		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(URL, tradesFromJsonFile, TradeValidationResults.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
@@ -104,7 +143,7 @@ public class TradeValidationControllerTest {
 	
 	private void printResultOnConsoleAsObjectAndJson(TradeValidationResult validationResult) throws JsonProcessingException {
 		logger.info("Result as Object: {}", validationResult);
-		logger.info("Result as JSON: {}", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(validationResult));
+		logger.info("Result as JSON: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(validationResult));
 	}
 	
 	private void printResultOnConsoleAsObjectAndJson(TradeValidationResults validationResults) throws JsonProcessingException {

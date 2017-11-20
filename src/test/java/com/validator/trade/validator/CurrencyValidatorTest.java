@@ -6,10 +6,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.validator.trade.model.Spot;
@@ -17,20 +16,19 @@ import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
 
-public class ValueDateNotBeforeTradeDateValidatorTest {
+public class CurrencyValidatorTest {
 	
-	private final ValueDateNotBeforeTradeDateValidator validator = new ValueDateNotBeforeTradeDateValidator();
-	
-	private LocalDate beginningOfYear2000 = LocalDate.of(2000, Month.JANUARY, 1);
-	private LocalDate beginningOfYear2010 = LocalDate.of(2010, Month.JANUARY, 1);
-	
-	private final Trade trade = new Spot();
+	private final CurrencyValidator validator = new CurrencyValidator();
+	private Trade trade;
 
+	@Before
+	public void init() {
+		trade = new Spot();
+	}
+	
 	@Test
-	public void valueDateEqualToTradeDateTest() {
-		trade.setTradeDate(beginningOfYear2000);
-		trade.setValueDate(beginningOfYear2000);
-		
+	public void validCurrencyPairTest() {
+		trade.setCcyPair("EURUSD");
 		TradeValidationResult result = validator.validate(trade);
 		
 		assertNotNull(result);
@@ -41,25 +39,9 @@ public class ValueDateNotBeforeTradeDateValidatorTest {
 	}
 	
 	@Test
-	public void valueDateAfterTradeDateTest() {
-		
-		trade.setValueDate(beginningOfYear2010);
-		trade.setTradeDate(beginningOfYear2000);
-		
-		TradeValidationResult result = validator.validate(trade);
-		
-		assertNotNull(result);
-        assertThat(result.validationPassed(), is(true));
-        
-        Collection<ValidationError> validationErrors = result.getValidationErrors();
-        assertThat(validationErrors, is(empty()));
-	}
-	
-	@Test
-	public void valueDateBeforeTradeDateTest() {
-		trade.setValueDate(beginningOfYear2000);
-		trade.setTradeDate(beginningOfYear2010);
-		
+	public void baseCurrencyIncorrectTest() {
+		trade.setCcyPair("AAAUSD");
+
 		TradeValidationResult result = validator.validate(trade);
 		
 		assertNotNull(result);
@@ -71,9 +53,8 @@ public class ValueDateNotBeforeTradeDateValidatorTest {
 	}
 	
 	@Test
-	public void valueDateNull() {
-		trade.setTradeDate(beginningOfYear2000);
-		
+	public void quoteCurrencyIncorrectTest() {
+		trade.setCcyPair("EURAAA");
 		TradeValidationResult result = validator.validate(trade);
 		
 		assertNotNull(result);
@@ -85,9 +66,46 @@ public class ValueDateNotBeforeTradeDateValidatorTest {
 	}
 	
 	@Test
-	public void tradeDateNull() {
-		trade.setValueDate(beginningOfYear2000);
+	public void bothCurrenciesIncorrectTest() {
+		trade.setCcyPair("AAAAAA");
+		TradeValidationResult result = validator.validate(trade);
 		
+		assertNotNull(result);
+        assertThat(result.validationFailed(), is(true));
+        
+        Collection<ValidationError> validationErrors = result.getValidationErrors();
+        assertThat(validationErrors, is(not(empty())));
+        assertThat(validationErrors.size(), is(2));
+	}
+	
+	@Test
+	public void currencyPairShorterThanLengthOf1CurrencyCodeTest() {
+		trade.setCcyPair("E");
+		TradeValidationResult result = validator.validate(trade);
+		
+		assertNotNull(result);
+        assertThat(result.validationFailed(), is(true));
+        
+        Collection<ValidationError> validationErrors = result.getValidationErrors();
+        assertThat(validationErrors, is(not(empty())));
+        assertThat(validationErrors.size(), is(1));
+	}
+	
+	@Test
+	public void currencyPairMissingTest() {
+		TradeValidationResult result = validator.validate(trade);
+		
+		assertNotNull(result);
+        assertThat(result.validationFailed(), is(true));
+        
+        Collection<ValidationError> validationErrors = result.getValidationErrors();
+        assertThat(validationErrors, is(not(empty())));
+        assertThat(validationErrors.size(), is(1));
+	}
+	
+	@Test
+	public void currencyPairEmptyTest() {
+		trade.setCcyPair("");
 		TradeValidationResult result = validator.validate(trade);
 		
 		assertNotNull(result);

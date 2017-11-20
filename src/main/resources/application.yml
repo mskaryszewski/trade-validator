@@ -6,10 +6,10 @@ tradeValidation:
             - CounterPartyValidator
             - CurrencyValidator
         Spot: 
-            - ValueDateAgainstProductTypeValidator
+            - SpotValueDateValidator
         Forward:
-            - ValueDateAgainstProductTypeValidator
+            - ForwardValueDateValidator
         VanillaOption:
             - OptionStyleValidator
-            - OptionExcerciseDateValidator
+            - OptionExcerciseStartDateValidator
             - OptionExpiryDateAndPremiumDateValidator

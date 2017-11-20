@@ -2,45 +2,63 @@ package com.validator.trade.model.result;
 
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.google.common.collect.Lists;
+import com.validator.trade.model.Trade;
 
 import lombok.ToString;
 
 @ToString
 public class TradeValidationResult {
 	
-	private final Collection<ValidationError> validationErrors = Lists.newArrayList();
+	/**
+	 * Validation Result is always applicable for a given trade
+	 * that's why it is an class member
+	 */
+	private Trade trade;
+	
+	/**
+	 * Validation Result Status
+	 */
 	private TradeValidationStatus validationStatus;
 	
-	public static TradeValidationResult success() {
-		return new TradeValidationResult(TradeValidationStatus.VALIDATION_OK);
+	/**
+	 * All validation errors for a given trade
+	 */
+	private final Collection<ValidationError> validationErrors = Lists.newArrayList();
+	
+	public static TradeValidationResult forTrade(Trade trade) {
+		return new TradeValidationResult(trade);
 	}
 	
-	public static TradeValidationResult failure(ValidationError error) {
-		return new TradeValidationResult(TradeValidationStatus.VALIDATION_NOK, error);
+	private TradeValidationResult(Trade trade) {
+		this.trade = trade;
 	}
 	
-	public TradeValidationResult() {
-	}
-	
-	private TradeValidationResult(TradeValidationStatus status) {
-		this.validationStatus = status;
-	}
-	
-	private TradeValidationResult(TradeValidationStatus status, ValidationError error) {
-		this(status);
-		this.addError(error);
+	/**
+	 * Constructor required for JSON parser
+	 */
+	private TradeValidationResult() {
 	}
 	
 	public boolean validationFailed() {
-		return !validationErrors.isEmpty();
+		return !validationPassed();
 	}
 	
-	public TradeValidationStatus getStatus() {
-		return validationStatus;
+	public boolean validationPassed() {
+		return validationErrors.isEmpty();
 	}
 	
-	public void setStatus(TradeValidationStatus validationStatus) {
+	@JsonGetter
+	/**
+	 * Validation status is calculated always dynamically based on number of errors.
+	 * @return
+	 */
+	public TradeValidationStatus getValidationStatus() {
+		return validationPassed() ? TradeValidationStatus.success : TradeValidationStatus.failure;
+	}
+	
+	public void setValidationStatus(TradeValidationStatus validationStatus) {
 		this.validationStatus = validationStatus;
 	}
 	
@@ -54,5 +72,13 @@ public class TradeValidationResult {
 	
 	public Collection<ValidationError> getValidationErrors() {
 		return this.validationErrors;
+	}
+
+	public Trade getTrade() {
+		return trade;
+	}
+
+	public void setTrade(Trade trade) {
+		this.trade = trade;
 	}
 }

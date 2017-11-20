@@ -59,12 +59,4 @@ public abstract class Trade {
 	
 	private String trader;
 	
-	public Trade() {
-		
-	}
-
-	public Trade(TradeType type) {
-		super();
-		this.type = type;
-	}
 }
