@@ -44,9 +44,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  * @author Michal
  *
  */
-public class TradeValidationControllerTest2 {
+public class TradeValidationControllerTest {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest2.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest.class);	
 
 	@LocalServerPort
 	private int port;
@@ -56,33 +56,35 @@ public class TradeValidationControllerTest2 {
 	
 	private final Trade dummySpotTrade = new Spot();
 	private final ObjectMapper mapper  = new ObjectMapper();
+	private final String SINGLE_TRADE_URL   = "http://localhost:%d/trade";
+	private final String BULK_OF_TRADES_URL = "http://localhost:%d/trades";
 
 	@Test
 	public void returnsSuccessWhileValidatingASingleTrade() throws Exception {
-		final String SINGLE_TRADE_URL = String.format("http://localhost:%d/trade", this.port);
-		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, dummySpotTrade, TradeValidationResult.class);
+		final String URL = String.format(SINGLE_TRADE_URL, this.port);
+		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(URL, dummySpotTrade, TradeValidationResult.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
 		then(response).hasNoNullFieldsOrProperties();
 	}
 	
 	@Test
 	public void returnsSuccessWhileValidatingBulkOfTrades() throws Exception {
-		final String SINGLE_TRADE_URL = String.format("http://localhost:%d/trades", this.port);
+		final String URL = String.format(BULK_OF_TRADES_URL, this.port);
 		Collection<Trade> trades = Lists.newArrayList(dummySpotTrade, dummySpotTrade, dummySpotTrade);
 		
-		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trades, TradeValidationResults.class);
+		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(URL, trades, TradeValidationResults.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
 		then(response).hasNoNullFieldsOrProperties();
 	}
 	
 	@Test
 	public void validateASingeTradeFromAFile() throws Exception {
-		final String SINGLE_TRADE_URL = String.format("http://localhost:%d/trade", this.port);
+		final String URL = String.format(SINGLE_TRADE_URL, this.port);
 		
 		InputStream is = new ClassPathResource("single-trade.json").getInputStream();
-		Trade trade = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Trade.class);
+		Trade tradeFromJsonFile = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Trade.class);
 		
-		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trade, TradeValidationResult.class);
+		ResponseEntity<TradeValidationResult> response = this.testRestTemplate.postForEntity(URL, tradeFromJsonFile, TradeValidationResult.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
 		then(response).hasNoNullFieldsOrProperties();
 	}
@@ -90,12 +92,12 @@ public class TradeValidationControllerTest2 {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void validateMultipleTradesFromAFile() throws Exception {
-		final String SINGLE_TRADE_URL = String.format("http://localhost:%d/trades", this.port);
+		final String URL = String.format(BULK_OF_TRADES_URL, this.port);
 		
 		InputStream is = new ClassPathResource("multiple-trades.json").getInputStream();
-		Collection<Trade> trades = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Collection.class);
+		Collection<Trade> tradesFromJsonFile = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(is, Collection.class);
 		
-		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(SINGLE_TRADE_URL, trades, TradeValidationResults.class);
+		ResponseEntity<TradeValidationResults> response = this.testRestTemplate.postForEntity(URL, tradesFromJsonFile, TradeValidationResults.class);
 		printResultOnConsoleAsObjectAndJson(response.getBody());
 		then(response).hasNoNullFieldsOrProperties();
 	}
