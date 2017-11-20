@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Maps;
+import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
 import com.validator.trade.utils.ValidatorUtils;
 import com.validator.trade.validator.TradeValidator;
@@ -21,7 +22,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	@Autowired
 	private TradeValidatorsConfigReader tradeValidatorsYamlConfigReader;
 	
-	private Map<String, Collection<TradeValidator>> tradeValidators = Maps.newHashMap();
+	private Map<String, Collection<TradeValidator<Trade>>> tradeValidators = Maps.newHashMap();
 	
 	/**
 	 * Builds trade to collection of Validators Registry.
@@ -32,7 +33,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	 * @return Configuration of trade validators for a given type of trade.
 	 */
 	@Override
-	public Map<TradeType, Collection<TradeValidator>> getTradeValidators() {
+	public Map<TradeType, Collection<TradeValidator<Trade>>> getTradeValidators() {
 		return tradeValidators
 					.entrySet()
 					.stream()
@@ -50,7 +51,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	 */
 	@Autowired
 	public void setTradeValidators() {
-		Map<String, TradeValidator> allValidators = instantiateAllTradeValidators();
+		Map<String, TradeValidator<Trade>> allValidators = instantiateAllTradeValidators();
 		assignValidatorsForAGivenProductType(allValidators);
 		populateAllTradeValidators();
 	}
@@ -58,7 +59,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	/**
 	 * Create single instatnces of trade validators.
 	 */
-	private Map<String, TradeValidator> instantiateAllTradeValidators() {
+	private Map<String, TradeValidator<Trade>> instantiateAllTradeValidators() {
 		return tradeValidatorsYamlConfigReader
 			.getValidatorsForTradeType()
 			.values()
@@ -76,7 +77,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	 * Trade validators are assigned to a specific type of trades.
 	 * @param allValidators Assures that one validator will not be instantiated multiple times. 
 	 */
-	private void assignValidatorsForAGivenProductType(Map<String, TradeValidator> allValidators) {
+	private void assignValidatorsForAGivenProductType(Map<String, TradeValidator<Trade>> allValidators) {
 		tradeValidators = tradeValidatorsYamlConfigReader
 			.getValidatorsForTradeType()
 			.entrySet()
@@ -91,7 +92,7 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	 * @param productTypes
 	 * @return Validator instances for a given type of product.
 	 */
-	private Collection<TradeValidator> getValidatorsForAProductType(Map<String, TradeValidator> allValidators, Collection<String> productTypes) {
+	private Collection<TradeValidator<Trade>> getValidatorsForAProductType(Map<String, TradeValidator<Trade>> allValidators, Collection<String> productTypes) {
 		return productTypes
 			.stream()
 			.map(e -> allValidators.get(e))

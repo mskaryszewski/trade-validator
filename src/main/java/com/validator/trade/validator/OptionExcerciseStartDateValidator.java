@@ -8,6 +8,11 @@ import com.validator.trade.model.result.ValidationError;
 
 import lombok.ToString;
 
+/**
+ * Validator which raises error if excercise start day is not after trade date and before expiry day
+ * @author Michal
+ *
+ */
 @ToString
 public class OptionExcerciseStartDateValidator implements TradeValidator<Option> {
 
@@ -33,9 +38,9 @@ public class OptionExcerciseStartDateValidator implements TradeValidator<Option>
 		LocalDate excerciseStartDate = option.getExcerciseStartDate();
 		LocalDate tradeDate          = option.getTradeDate();
 		LocalDate expiryDate         = option.getExpiryDate();
-		return excerciseStartDate == null 
+		return     null == excerciseStartDate 
 				|| null == tradeDate
-				|| null ==expiryDate;
+				|| null == expiryDate;
 	}
 	
 	private boolean excerciseStartDateIsAfterTradeDateAndBeforeExpiryDate(Option option) {

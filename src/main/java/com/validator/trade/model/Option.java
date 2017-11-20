@@ -35,8 +35,4 @@ public class Option extends Trade {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate premiumDate;
-	
-	public Option() {
-		type = TradeType.VanillaOption;
-	}
 }

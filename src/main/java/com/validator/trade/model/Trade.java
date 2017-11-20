@@ -26,7 +26,8 @@ import lombok.ToString;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
+        property = "type",
+        visible = true
         )
 @JsonSubTypes({
         @Type(value = Spot.class,    name = TradeType.SPOT),
@@ -39,7 +40,7 @@ public abstract class Trade {
 	
 	private String ccyPair;
 	
-	protected TradeType type;
+	private TradeType type;
 	
 	private String direction;
 	

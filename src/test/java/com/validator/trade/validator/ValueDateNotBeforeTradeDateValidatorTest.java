@@ -19,7 +19,7 @@ import com.validator.trade.model.result.ValidationError;
 
 public class ValueDateNotBeforeTradeDateValidatorTest {
 	
-	private final ValueDateNotBeforeTradeDateValidator validator = new ValueDateNotBeforeTradeDateValidator();
+	private final TradeValidator<Trade> validator = new ValueDateNotBeforeTradeDateValidator();
 	
 	private LocalDate beginningOfYear2000 = LocalDate.of(2000, Month.JANUARY, 1);
 	private LocalDate beginningOfYear2010 = LocalDate.of(2010, Month.JANUARY, 1);

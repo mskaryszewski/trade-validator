@@ -6,24 +6,32 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import com.validator.trade.model.Spot;
-import com.validator.trade.model.Trade;
+import com.validator.trade.model.Forward;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
 
-public class CounterPartyValidatorTest {
+public class ForwardValueDateValidatorTest {
 	
-	private final CounterPartyValidator validator = new CounterPartyValidator();
-	private final Trade trade = new Spot();
+	private final ForwardValueDateValidator validator = new ForwardValueDateValidator();
+	private Forward forwardTrade;
+	
+	@Before
+	public void init() {
+		forwardTrade = new Forward();
+	}
 
 	@Test
-	public void supportedCustomerTest() {
-		trade.setCustomer("PLUTO1");
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateAfterCurrentDayPlusMoreThanTwoTest() {
+		forwardTrade.setValueDate(LocalDate.of(2016, Month.OCTOBER, 20));
+
+		TradeValidationResult result = validator.validate(forwardTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationPassed(), is(true));
@@ -33,9 +41,10 @@ public class CounterPartyValidatorTest {
 	}
 	
 	@Test
-	public void unsupportedCustomerTest() {
-		trade.setCustomer("INCORRECT_CUSTOMER");
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateAfterCurrentDayPlusTwoTest() {
+		forwardTrade.setValueDate(LocalDate.of(2016, Month.OCTOBER, 11));
+
+		TradeValidationResult result = validator.validate(forwardTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationFailed(), is(true));
@@ -46,8 +55,10 @@ public class CounterPartyValidatorTest {
 	}
 	
 	@Test
-	public void customerIsNullTest() {
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateIsNullTest() {
+		forwardTrade.setValueDate(LocalDate.of(2000, Month.JANUARY, 1));
+
+		TradeValidationResult result = validator.validate(forwardTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationFailed(), is(true));

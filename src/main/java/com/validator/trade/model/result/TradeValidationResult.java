@@ -1,9 +1,10 @@
 package com.validator.trade.model.result;
 
 import java.util.Collection;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.validator.trade.model.Trade;
 
 import lombok.ToString;
@@ -20,12 +21,13 @@ public class TradeValidationResult {
 	/**
 	 * Validation Result Status
 	 */
+	@SuppressWarnings("unused")
 	private TradeValidationStatus validationStatus;
 	
 	/**
 	 * All validation errors for a given trade
 	 */
-	private final Collection<ValidationError> validationErrors = Lists.newArrayList();
+	private final Set<ValidationError> validationErrors = Sets.newHashSet();
 	
 	public static TradeValidationResult forTrade(Trade trade) {
 		return new TradeValidationResult(trade);
@@ -72,13 +74,5 @@ public class TradeValidationResult {
 	
 	public Collection<ValidationError> getValidationErrors() {
 		return this.validationErrors;
-	}
-
-	public Trade getTrade() {
-		return trade;
-	}
-
-	public void setTrade(Trade trade) {
-		this.trade = trade;
 	}
 }

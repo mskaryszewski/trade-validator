@@ -18,7 +18,7 @@ import com.validator.trade.model.result.ValidationError;
 
 public class CurrencyValidatorTest {
 	
-	private final CurrencyValidator validator = new CurrencyValidator();
+	private final TradeValidator<Trade> validator = new CurrencyValidator();
 	private Trade trade;
 
 	@Before

@@ -7,6 +7,6 @@ import com.validator.trade.validator.TradeValidator;
 
 public interface TradeValidationRegistry {
 	
-	Collection<TradeValidator> getValidators(Trade trade);
+	Collection<TradeValidator<Trade>> getValidators(Trade trade);
 
 }

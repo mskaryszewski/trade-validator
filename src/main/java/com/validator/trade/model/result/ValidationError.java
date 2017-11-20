@@ -1,10 +1,12 @@
 package com.validator.trade.model.result;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 @Getter
+@EqualsAndHashCode
 public class ValidationError {
 	
 	private String errorMessage;

@@ -28,9 +28,9 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	@Autowired
 	private TradeValidatorsRegistryBuilder tradeValidatorsYamlRegistryBuilder;
 	
-	private Map<TradeType, Collection<TradeValidator>> tradeValidators = Maps.newHashMap();
+	private Map<TradeType, Collection<TradeValidator<Trade>>> tradeValidators = Maps.newHashMap();
 
-	public Map<TradeType, Collection<TradeValidator>> getTradeValidators() {
+	public Map<TradeType, Collection<TradeValidator<Trade>>> getTradeValidators() {
 		return tradeValidators;
 	}
 	
@@ -40,7 +40,7 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	 * @return
 	 */
 	@Override
-	public Collection<TradeValidator> getValidators(Trade trade) {
+	public Collection<TradeValidator<Trade>> getValidators(Trade trade) {
 		return tradeValidators.get(trade.getType());
 	}
 

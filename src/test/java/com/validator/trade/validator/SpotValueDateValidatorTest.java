@@ -6,36 +6,46 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.validator.trade.model.Spot;
-import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
 
-public class CounterPartyValidatorTest {
+public class SpotValueDateValidatorTest {
 	
-	private final CounterPartyValidator validator = new CounterPartyValidator();
-	private final Trade trade = new Spot();
+	private final SpotValueDateValidator validator = new SpotValueDateValidator();
+	private Spot spotTrade;
+	
+	@Before
+	public void init() {
+		spotTrade = new Spot();
+	}
 
 	@Test
-	public void supportedCustomerTest() {
-		trade.setCustomer("PLUTO1");
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateEqualsCurrentDatePlusTwoTest() {
+		spotTrade.setValueDate(LocalDate.of(2016, Month.OCTOBER, 11));
+
+		TradeValidationResult result = validator.validate(spotTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationPassed(), is(true));
         
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(empty()));
+        
 	}
 	
 	@Test
-	public void unsupportedCustomerTest() {
-		trade.setCustomer("INCORRECT_CUSTOMER");
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateIsNotEqualToCurrentDatePlusTwoTest() {
+		spotTrade.setValueDate(LocalDate.of(2000, Month.JANUARY, 1));
+
+		TradeValidationResult result = validator.validate(spotTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationFailed(), is(true));
@@ -43,11 +53,14 @@ public class CounterPartyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        
 	}
 	
 	@Test
-	public void customerIsNullTest() {
-		TradeValidationResult result = validator.validate(trade);
+	public void valueDateIsNullTest() {
+		spotTrade.setValueDate(LocalDate.of(2000, Month.JANUARY, 1));
+
+		TradeValidationResult result = validator.validate(spotTrade);
 		
 		assertNotNull(result);
         assertThat(result.validationFailed(), is(true));
@@ -55,5 +68,7 @@ public class CounterPartyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        
 	}
+
 }

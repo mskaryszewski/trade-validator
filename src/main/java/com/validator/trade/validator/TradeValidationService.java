@@ -25,7 +25,7 @@ public class TradeValidationService implements ValidationService {
 		
 		logger.debug("Trade validation started for trade {}", trade);
 		TradeValidationResult tradeValidationResult = TradeValidationResult.forTrade(trade);
-		Collection<TradeValidator> validators = tradeValidatorYamlRegistry.getValidators(trade);
+		Collection<TradeValidator<Trade>> validators = tradeValidatorYamlRegistry.getValidators(trade);
 		
 		validators.parallelStream()
 				  .map(tradeValidator -> tradeValidator.validate(trade))

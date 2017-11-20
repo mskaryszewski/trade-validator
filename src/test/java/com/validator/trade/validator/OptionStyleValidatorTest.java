@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
@@ -16,7 +16,7 @@ import com.validator.trade.model.result.ValidationError;
 
 public class OptionStyleValidatorTest {
 	
-	private final OptionStyleValidator validator = new OptionStyleValidator();
+	private final TradeValidator<Option> validator = new OptionStyleValidator();
 	private final Option option = new Option();
 
 	@Test
@@ -32,20 +32,7 @@ public class OptionStyleValidatorTest {
 	}
 	
 	@Test
-	public void unsupportedOptionStyleTest() {
-		option.setCustomer("InvalidOptionStyle");
-		TradeValidationResult result = validator.validate(option);
-		
-		assertNotNull(result);
-        assertThat(result.validationFailed(), is(true));
-        
-        Collection<ValidationError> validationErrors = result.getValidationErrors();
-        assertThat(validationErrors, is(not(empty())));
-        assertThat(validationErrors.size(), is(1));
-	}
-	
-	@Test
-	public void customerNullTest() {
+	public void optionStyleNullTest() {
 		TradeValidationResult result = validator.validate(option);
 		
 		assertNotNull(result);
