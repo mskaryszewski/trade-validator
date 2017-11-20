@@ -44,9 +44,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  * @author Michal
  *
  */
-public class TradeValidationControllerTest {
+public class TradeValidationControllerTest1 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest1.class);	
 
 	@LocalServerPort
 	private int port;
