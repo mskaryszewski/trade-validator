@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import com.google.common.collect.Lists;
 
+import lombok.ToString;
+
+@ToString
 public class TradeValidationResult {
 	
 	private final Collection<ValidationError> validationErrors = Lists.newArrayList();

@@ -44,9 +44,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  * @author Michal
  *
  */
-public class TradeValidationControllerTest1 {
+public class TradeValidationControllerTest2 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest1.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest2.class);	
 
 	@LocalServerPort
 	private int port;
@@ -101,8 +101,8 @@ public class TradeValidationControllerTest1 {
 	}
 	
 	private void printResultOnConsoleAsObjectAndJson(TradeValidationResult validationResult) throws JsonProcessingException {
-		logger.info("Result Object {}", validationResult);
-		logger.info("Result as JSON format {}", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(validationResult));
+		logger.info("Result as Object: {}", validationResult);
+		logger.info("Result as JSON: {}", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(validationResult));
 	}
 	
 	private void printResultOnConsoleAsObjectAndJson(TradeValidationResults validationResults) throws JsonProcessingException {

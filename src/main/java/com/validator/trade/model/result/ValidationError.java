@@ -2,6 +2,9 @@ package com.validator.trade.model.result;
 
 import com.validator.trade.model.Trade;
 
+import lombok.ToString;
+
+@ToString
 public class ValidationError {
 	
 	private final String errorMessage;
@@ -14,10 +17,5 @@ public class ValidationError {
 	private ValidationError(String errorMessage, Trade trade) {
 		this.errorMessage = errorMessage;
 		this.trade = trade;
-	}
-
-	@Override
-	public String toString() {
-		return "ValidationError [errorMessage=" + errorMessage + ", trade=" + trade + "]";
 	}
 }
