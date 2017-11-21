@@ -25,7 +25,9 @@ public class TradeValidationResult {
 	private TradeValidationStatus validationStatus;
 	
 	/**
-	 * All validation errors for a given trade
+	 * All validation errors for a given trade.
+	 * Stored in Set to remove duplicate error messages that can be created by multiple Validator
+	 * e.g. "Value Date is missing"
 	 */
 	private final Set<ValidationError> validationErrors = Sets.newHashSet();
 	
