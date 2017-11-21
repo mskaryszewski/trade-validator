@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.validator.trade.model.Option;
-import com.validator.trade.model.OptionStyle;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
 

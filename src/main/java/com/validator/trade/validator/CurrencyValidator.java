@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import java.util.Currency;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -31,11 +32,11 @@ public class CurrencyValidator implements TradeValidator<Trade> {
 		String currency = trade.getCcyPair();
 		
 		if(null == currency) {
-			validationResult.addError(ValidationError.fromErrorMessage("Currency Pair cannot be null"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_NULL));
 		}
 		
 		if(validationResult.validationPassed() && !currency.matches("[A-Z]{6}")) {
-			validationResult.addError(ValidationError.fromErrorMessage("Currency Pair must contain 6 characters [A-Z]"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_MUST_CONTAIN_6_CHARS));
 		}
 		
 		if(validationResult.validationPassed()) {
@@ -45,12 +46,12 @@ public class CurrencyValidator implements TradeValidator<Trade> {
 			try {
 				Currency.getInstance(baseCurrency);
 			} catch (IllegalArgumentException e) {
-				validationResult.addError(ValidationError.fromErrorMessage("Base Currency is not a valid ISO 4217 Code"));
+				validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.BASE_CURRENCY_NOT_VALID));
 			}
 			try {
 				Currency.getInstance(quoteCurrency);
 			} catch (IllegalArgumentException e) {
-				validationResult.addError(ValidationError.fromErrorMessage("Quote Currency is not a valid ISO 4217 Code"));
+				validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.QUOTE_CURRENCY_NOT_VALID));
 			}
 		}
 		return validationResult;

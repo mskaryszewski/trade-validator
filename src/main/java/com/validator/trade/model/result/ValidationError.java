@@ -1,5 +1,7 @@
 package com.validator.trade.model.result;
 
+import com.validator.trade.model.ErrorNotification;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,8 +13,8 @@ public class ValidationError {
 	
 	private String errorMessage;
 	
-	public static ValidationError fromErrorMessage(String errorMessage) {
-		return new ValidationError(errorMessage);
+	public static ValidationError fromErrorMessage(ErrorNotification message) {
+		return new ValidationError(message.getContent());
 	}
 	
 	private ValidationError(String errorMessage) {

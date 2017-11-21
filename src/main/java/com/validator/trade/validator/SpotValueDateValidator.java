@@ -3,6 +3,7 @@ package com.validator.trade.validator;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Spot;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -35,11 +36,11 @@ public class SpotValueDateValidator implements TradeValidator<Spot> {
 		LocalDate valueDate   = spot.getValueDate();
 		
 		if(null == valueDate) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date is missing"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_IS_MISSING));
 		}
 		
 		if(validationResult.validationPassed() && ChronoUnit.DAYS.between(currentDate, valueDate) != 2L) {
-			validationResult.addError(ValidationError.fromErrorMessage("Difference between current date and value date is not equal 2"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.SPOT_VALUE_DATE_INCORRECT));
 		}
 		
 		return validationResult;

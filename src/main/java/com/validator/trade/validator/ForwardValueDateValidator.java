@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import java.time.LocalDate;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Forward;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -34,11 +35,11 @@ public class ForwardValueDateValidator implements TradeValidator<Forward> {
 		LocalDate valueDate   = forward.getValueDate();
 		
 		if(null == valueDate) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date is missing"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_IS_MISSING));
 		}
 		
 		if(validationResult.validationPassed() && !valueDate.isAfter(currentDate.plusDays(2))) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date must be later than current date + 2"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.FORWARD_VALUE_DATE_INCORRECT));
 		}
 		
 		return validationResult;

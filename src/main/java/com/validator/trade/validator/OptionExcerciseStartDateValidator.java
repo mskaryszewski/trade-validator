@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import java.time.LocalDate;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Option;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -25,11 +26,11 @@ public class OptionExcerciseStartDateValidator implements TradeValidator<Option>
 		}
 		
 		if(excerciseStartDateTradeDateOrExpiryDateIsNull(option)) {
-			validationResult.addError(ValidationError.fromErrorMessage("American Option cannot have empty excerciseStartDate, tradeDate or expiryDate"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.AMERICAN_OPTION_MISSING_DATE));
 		}
 		
 		if(validationResult.validationPassed() && !excerciseStartDateIsAfterTradeDateAndBeforeExpiryDate(option)) {
-			validationResult.addError(ValidationError.fromErrorMessage("American Option excercise start day must be after trade date and before expiry day"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.AMERICAN_OPTION_INCORRECT_EXCERCISE_START_DAY));
 		}
 		return validationResult;
 	}

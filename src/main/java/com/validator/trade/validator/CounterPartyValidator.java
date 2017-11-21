@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.google.common.base.Enums;
 import com.google.common.collect.Lists;
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.ValidCounterParty;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -26,9 +27,9 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 		
 		TradeValidationResult validationResult = TradeValidationResult.forTrade(trade);
 		if(null == trade.getCustomer()) {
-			validationResult.addError(ValidationError.fromErrorMessage("CounterParty missing"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.COUNTERPARTY_IS_MISSING));
 		} else if (!Enums.getIfPresent(ValidCounterParty.class, trade.getCustomer()).isPresent()) {
-			validationResult.addError(ValidationError.fromErrorMessage("CounterParty not supported"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.COUNTERPARTY_NOT_SUPPORTED));
 	    }
 		return validationResult;
 	}

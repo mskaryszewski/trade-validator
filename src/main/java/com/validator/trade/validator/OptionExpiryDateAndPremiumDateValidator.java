@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import java.time.LocalDate;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Option;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -22,11 +23,11 @@ public class OptionExpiryDateAndPremiumDateValidator implements TradeValidator<O
 		TradeValidationResult validationResult = TradeValidationResult.forTrade(option);
 		
 		if(excerciseStartDateTradeDateOrExpiryDateIsNull(option)) {
-			validationResult.addError(ValidationError.fromErrorMessage("Option cannot have empty expiryDate, premiumDate and deliveryDate"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.OPTION_MISSING_DATE));
 		}
 		
 		if(validationResult.validationPassed() && !expiryDateAndPremiumDateBeforeDeliveryDate(option)) {
-			validationResult.addError(ValidationError.fromErrorMessage("ExpiryDate and premiumDate must be before deliveryDate"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.OPTION_INCORRECT_DATE));
 		}
 		return validationResult;
 	}

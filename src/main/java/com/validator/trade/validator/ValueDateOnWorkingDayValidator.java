@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import org.springframework.context.ApplicationContext;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -29,12 +30,12 @@ public class ValueDateOnWorkingDayValidator implements TradeValidator<Trade> {
 		LocalDate valueDate = trade.getValueDate();
 		
 		if(null == valueDate) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date is missing"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_IS_MISSING));
 		}
 		
 		if(validationResult.validationPassed() && 
 				(valueDate.getDayOfWeek() == DayOfWeek.SUNDAY || valueDate.getDayOfWeek() == DayOfWeek.SATURDAY)) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date falls on weekend"));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_FALLS_ON_WEEKEND));
 		}
 		
 		if(null == holidayApiService) {
@@ -45,7 +46,7 @@ public class ValueDateOnWorkingDayValidator implements TradeValidator<Trade> {
 		if(null != valueDate) {
 			boolean isHoliday = holidayApiService.isHoliday(valueDate);
 			if(isHoliday) {
-				validationResult.addError(ValidationError.fromErrorMessage("Value Date falls on holiday"));
+				validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_FALLS_ON_HOLIDAY));
 			}
 		}
 		return validationResult;
