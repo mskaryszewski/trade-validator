@@ -61,11 +61,12 @@ The only worth to be mentioned here Validator is `ValueDateOnWorkingDayValidator
 Thanks to this solution it is validated if trade's valuation date does not fall on weekend. This is the main bottleneck of the Trade Validation solution as it's dependent on external service. Unavailability of [holidayapi.com](https://holidayapi.com) or poor connection may degrade performance significantly.
 
 ## Ways how to run it
-#### - Using the Maven plugin
+There are two basic alternatives
+#### Option 1. Use the Maven plugin
 ```
 mvn spring-boot:run
 ```
-#### - Compile and Run
+#### Option 2. Compile and Run
 ```
 mvn clean package
 java -jar target/trade-validator-0.0.1-SNAPSHOT.jar
