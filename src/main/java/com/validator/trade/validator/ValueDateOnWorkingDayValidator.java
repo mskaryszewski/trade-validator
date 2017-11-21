@@ -42,9 +42,11 @@ public class ValueDateOnWorkingDayValidator implements TradeValidator<Trade> {
 	    	this.holidayApiService = ctx.getBean(HolidayApiService.class);
 		}
 		
-		boolean isHoliday = holidayApiService.isHoliday(trade.getValueDate());
-		if(isHoliday) {
-			validationResult.addError(ValidationError.fromErrorMessage("Value Date falls on holiday"));
+		if(null != valueDate) {
+			boolean isHoliday = holidayApiService.isHoliday(valueDate);
+			if(isHoliday) {
+				validationResult.addError(ValidationError.fromErrorMessage("Value Date falls on holiday"));
+			}
 		}
 		return validationResult;
 	}
