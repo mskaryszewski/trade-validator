@@ -75,4 +75,8 @@ public class TradeValidationResult {
 	public Collection<ValidationError> getValidationErrors() {
 		return this.validationErrors;
 	}
+
+	public Trade getTrade() {
+		return trade;
+	}
 }
