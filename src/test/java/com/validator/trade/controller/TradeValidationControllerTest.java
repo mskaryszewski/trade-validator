@@ -48,9 +48,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TradeValidationControllerTest3 {
+public class TradeValidationControllerTest {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest3.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest.class);	
 
 	@LocalServerPort
 	private int port;

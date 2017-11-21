@@ -17,7 +17,7 @@ import lombok.Setter;
  * 
  * See {https://holidayapi.com}
  * 
- * This class is not fully finished, proper exception handling and status codes to be implemented.
+ * This class at the time being is not guarded with proper status codes and exception handling.
  * @author Michal
  *
  */
