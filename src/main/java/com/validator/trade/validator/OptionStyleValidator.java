@@ -22,7 +22,7 @@ public class OptionStyleValidator implements TradeValidator<Option> {
 		TradeValidationResult validationResult = TradeValidationResult.forTrade(option);
 		if(null == option.getStyle()) {
 			validationResult.addError(ValidationError.fromErrorMessage("Option Style Missing"));
-		} else if (!Enums.getIfPresent(OptionStyle.class, option.getStyle()).isPresent()) {
+		} else if (!Enums.getIfPresent(OptionStyle.class, option.getStyle().toUpperCase()).isPresent()) {
 			validationResult.addError(ValidationError.fromErrorMessage("Option Style not supported"));
 	    }
 		return validationResult;

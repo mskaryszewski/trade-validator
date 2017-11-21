@@ -18,7 +18,6 @@ import lombok.ToString;
  * @author Michal
  *
  */
-
 @ToString
 @Getter
 @Setter
@@ -59,5 +58,4 @@ public abstract class Trade {
 	private String legalEntity;
 	
 	private String trader;
-	
 }

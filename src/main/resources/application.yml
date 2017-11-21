@@ -2,7 +2,7 @@ tradeValidation:
     validatorsForTradeType:
         ALL: 
             - ValueDateNotBeforeTradeDateValidator
-            - ValueDateNotOnNonWorkingDayForCurrencValidator
+            - ValueDateOnWorkingDayValidator
             - CounterPartyValidator
             - CurrencyValidator
         Spot: 

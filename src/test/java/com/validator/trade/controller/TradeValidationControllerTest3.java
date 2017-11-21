@@ -3,6 +3,8 @@ package com.validator.trade.controller;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -46,9 +48,9 @@ import com.validator.trade.model.result.TradeValidationResults;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TradeValidatorApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TradeValidationControllerTest1 {
+public class TradeValidationControllerTest3 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest1.class);	
+	private static final Logger logger = LoggerFactory.getLogger(TradeValidationControllerTest3.class);	
 
 	@LocalServerPort
 	private int port;
@@ -80,6 +82,7 @@ public class TradeValidationControllerTest1 {
 	public void init() {
 		dummySpotTrade = new Spot();
 		dummySpotTrade.setType(TradeType.Spot);
+		dummySpotTrade.setValueDate(LocalDate.of(2010, Month.JANUARY, 1));
 	}
 	
 	@Test

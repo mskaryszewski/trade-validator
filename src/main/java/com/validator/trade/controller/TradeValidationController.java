@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
-import com.validator.trade.validator.ValidationService;
+import com.validator.trade.service.ValidationService;
 
 @RestController
 public class TradeValidationController {

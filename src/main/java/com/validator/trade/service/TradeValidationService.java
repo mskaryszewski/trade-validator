@@ -1,4 +1,4 @@
-package com.validator.trade.validator;
+package com.validator.trade.service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
+import com.validator.trade.validator.TradeValidator;
 import com.validator.trade.validator.registry.api.TradeValidationRegistry;
 
 @Service

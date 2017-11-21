@@ -1,4 +1,4 @@
-package com.validator.trade.validator;
+package com.validator.trade.service;
 
 import java.util.Collection;
 
