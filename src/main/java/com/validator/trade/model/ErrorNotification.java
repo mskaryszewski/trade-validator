@@ -1,14 +1,16 @@
 package com.validator.trade.model;
 
 /**
- * 
  * Repository of error message content sent to consumer of validation service.
  * 
  * In fact trade validation application as a simple software to generate error notifications.
  * At this light it is reasonable to have a full control of content of all messages.
+ * Thanks to this we see all kinds of error notifications that can be returned to the client.
+ * 
+ * Moreover this approach supports more robust automatic tests 
+ * as we can refer to a single place of message definition and check correctness of message content.
  * 
  * @author Michal
- *
  */
 public enum ErrorNotification {
 	
@@ -36,9 +38,6 @@ public enum ErrorNotification {
 	OPTION_INCORRECT_DATE("ExpiryDate and premiumDate must be before deliveryDate"),
 	AMERICAN_OPTION_MISSING_DATE("American Option cannot have empty excerciseStartDate, tradeDate or expiryDate"),
 	AMERICAN_OPTION_INCORRECT_EXCERCISE_START_DAY("American Option excercise start day must be after trade date and before expiry day");
-	
-	
-	
 	
 	private String content;
 	
