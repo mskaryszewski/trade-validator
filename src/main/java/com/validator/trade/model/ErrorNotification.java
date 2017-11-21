@@ -23,7 +23,7 @@ public enum ErrorNotification {
 	COUNTERPARTY_IS_MISSING("CounterParty missing"),
 	COUNTERPARTY_NOT_SUPPORTED("CounterParty not supported"),
 	
-	CURRENCY_PAIR_NULL("Currency Pair cannot be null"),
+	CURRENCY_PAIR_MISSING("Currency Pair cannot be null"),
 	CURRENCY_PAIR_MUST_CONTAIN_6_CHARS("Currency Pair must contain 6 characters [A-Z]"),
 	BASE_CURRENCY_NOT_VALID("Base Currency is not a valid ISO 4217 Code"),
 	QUOTE_CURRENCY_NOT_VALID("Quote Currency is not a valid ISO 4217 Code"),

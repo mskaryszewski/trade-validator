@@ -41,7 +41,8 @@ import com.validator.trade.model.result.TradeValidationResults;
  * - load and send JSON trades definition stored in files
  * - print returned data on console as objects and as JSON files
  * 
- * The main focus is not to validate specific object attribute values but if objects are returned at all.
+ * The main focus is not to validate specific object attribute values but 
+ * verification if we can establish connection and if objects are properly returned.
  * 
  * @author Michal
  *

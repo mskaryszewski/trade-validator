@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Spot;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -50,6 +52,7 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.BASE_CURRENCY_NOT_VALID)));
 	}
 	
 	@Test
@@ -63,6 +66,7 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.QUOTE_CURRENCY_NOT_VALID)));
 	}
 	
 	@Test
@@ -76,6 +80,8 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(2));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.BASE_CURRENCY_NOT_VALID)));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.QUOTE_CURRENCY_NOT_VALID)));
 	}
 	
 	@Test
@@ -89,6 +95,7 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_MUST_CONTAIN_6_CHARS)));
 	}
 	
 	@Test
@@ -101,6 +108,7 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_MISSING)));
 	}
 	
 	@Test
@@ -114,5 +122,6 @@ public class CurrencyValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_MUST_CONTAIN_6_CHARS)));
 	}
 }

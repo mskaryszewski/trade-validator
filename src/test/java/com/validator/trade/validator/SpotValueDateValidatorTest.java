@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Spot;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -53,13 +55,12 @@ public class SpotValueDateValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.SPOT_VALUE_DATE_INCORRECT)));
         
 	}
 	
 	@Test
 	public void valueDateIsNullTest() {
-		spotTrade.setValueDate(LocalDate.of(2000, Month.JANUARY, 1));
-
 		TradeValidationResult result = validator.validate(spotTrade);
 		
 		assertNotNull(result);
@@ -68,7 +69,6 @@ public class SpotValueDateValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
-        
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.VALUE_DATE_IS_MISSING)));
 	}
-
 }

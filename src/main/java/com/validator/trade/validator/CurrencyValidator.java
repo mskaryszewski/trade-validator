@@ -32,7 +32,7 @@ public class CurrencyValidator implements TradeValidator<Trade> {
 		String currency = trade.getCcyPair();
 		
 		if(null == currency) {
-			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_NULL));
+			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.CURRENCY_PAIR_MISSING));
 		}
 		
 		if(validationResult.validationPassed() && !currency.matches("[A-Z]{6}")) {

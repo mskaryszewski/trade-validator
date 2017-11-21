@@ -4,7 +4,7 @@ This project is a RESTful web service implemented using [Spring Boot](http://pro
 It's main purpose is to expose extensible Trade Validation service.
 
 ### Endpoints
-`/trade` - validates a single trade using trade validators used for all trades as well as specified only for this trade type. It returns trade with validation status and corresponding error messages  
+`/trade` - validates a single trade using common trade validators defined for all trades as well as specified only for this type of trade. Returns trade with validation status and corresponding error messages  
 `/trades` - validates chunk of trades and returns list of trades with validation status and corresponsing error messages  
 `/shutdown` - graceful shutdown solution using [Spring Boot Actuator module](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#production-ready-endpoints)  
 

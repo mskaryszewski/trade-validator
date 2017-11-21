@@ -2,6 +2,7 @@ package com.validator.trade.validator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Forward;
 import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.model.result.ValidationError;
@@ -52,6 +54,7 @@ public class ForwardValueDateValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.FORWARD_VALUE_DATE_INCORRECT)));
 	}
 	
 	@Test
@@ -66,5 +69,6 @@ public class ForwardValueDateValidatorTest {
         Collection<ValidationError> validationErrors = result.getValidationErrors();
         assertThat(validationErrors, is(not(empty())));
         assertThat(validationErrors.size(), is(1));
+        assertThat(validationErrors, hasItem(ValidationError.fromErrorMessage(ErrorNotification.FORWARD_VALUE_DATE_INCORRECT)));
 	}
 }
