@@ -29,7 +29,6 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
-		
 		TradeValidationResult validationResult = TradeValidationResult.forTrade(trade);
 		if(null == trade.getCustomer()) {
 			validationResult.addError(ValidationError.fromErrorMessage(ErrorNotification.COUNTERPARTY_IS_MISSING));

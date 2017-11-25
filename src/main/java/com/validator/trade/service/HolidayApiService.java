@@ -41,17 +41,19 @@ public class HolidayApiService {
     /**
      * 
      * @param date for which we want to get the information if it is a holiday
-     * @return
+     * @return inforation if a given date is a holiday in a given country
      */
 	public boolean isHoliday(LocalDate date) {
 		String url = generateURL(date);
 		HolidayResponseMessage response = restTemplate.getForObject(url, HolidayResponseMessage.class);
 		return !response.getHolidays().isEmpty();
 	}
-	
-	  /**
-     * Simplified logic, always return results for Polish calendar.
-     */
+
+	/**
+	 * Simplified logic, always return results for Polish calendar.
+	 * @param date for which we want to ask remote service about holiday information
+	 * @return URL to be sent to remote service
+	 */
 	private String generateURL(LocalDate date) {
 		return String.format("https://holidayapi.com/v1/holidays?key=%s&country=PL&year=%s&month=%s&day=%s",
 				KEY,
