@@ -7,7 +7,7 @@ It's main purpose is to expose extensible Trade Validation service.
 `/trade` - validates a single trade using common trade validators defined for all trades as well as specified only for this type of trade. Returns trade with validation status and corresponding error messages  
 `/trades` - validates chunk of trades and returns list of trades with validation status and corresponsing error messages  
 `/shutdown` - graceful shutdown solution using [Spring Boot Actuator module](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#production-ready-endpoints)  
-`/swagger-ui.html` - documentation
+`/swagger-ui.html` - documentation of REST API exposed by the service
 
 ### Main assumptions, requirements and implemented solutions
 
