@@ -45,15 +45,15 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 	 * checks if given trade has valid counterparty
 	 */
 	private boolean isValidCounterParty(Trade trade) {
-		loadConfigIfMissing();
+		loadValidCounterPartiesIfMissing();
 		return validCounterParties.contains(trade.getCustomer());
 	}
 	
 	/**
-	 * Retrieves valid counterparties from application.properties.
+	 * Retrieves valid counterParties from application.properties.
 	 * List holds already trimmed data - no need to trim it anywhere else.
 	 */
-	private void loadConfigIfMissing() {
+	private void loadValidCounterPartiesIfMissing() {
 		if(validCounterParties.isEmpty()) {
 			Configuration configuration = ConfigManager.getConfiguration();
 			String counterparties = configuration.getCounterparties();
