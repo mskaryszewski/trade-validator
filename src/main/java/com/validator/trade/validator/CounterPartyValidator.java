@@ -23,7 +23,7 @@ import lombok.ToString;
 public class CounterPartyValidator implements TradeValidator<Trade> {
 	
 	/**
-	 * List of validCounterParties configured in application.properties
+	 * List of validCounterParties configured in trade-validator.properties
 	 */
 	private List<String> validCounterParties = Lists.newArrayList();
 	
@@ -49,7 +49,7 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 	}
 	
 	/**
-	 * Retrieves valid counterParties from application.properties.
+	 * Retrieves valid counterParties from trade-validator.properties.
 	 * List holds already trimmed data - no need to trim it anywhere else.
 	 */
 	private void loadValidCounterPartiesIfMissing() {

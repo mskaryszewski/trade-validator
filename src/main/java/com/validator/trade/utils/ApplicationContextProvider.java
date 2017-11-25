@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 
  * Instance of usage:
  * - enriches {@link com.validator.trade.validator.CounterPartyValidator} with list of valid counterParties
- *   defined in application.properties {@link com.validator.trade.config.Configuration}
+ *   defined in trade-validator.properties {@link com.validator.trade.config.Configuration}
  * 
  * - enriches a {@link com.validator.trade.validator.ValueDateOnWorkingDayValidator}
  *   with {@link com.validator.trade.service.HolidayApiService} to consume REST service

@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext;
 import com.validator.trade.utils.ApplicationContextProvider;
 
 /**
- * Returns Configuration object holding entire confguration defined in application.properties
+ * Returns Configuration object holding entire confguration defined in trade-validator.properties
  * @author Michal
  *
  */
@@ -17,13 +17,13 @@ public class ConfigManager {
 	private ConfigManager() {};
 	
 	/**
-	 * Configuration loaded based on application.properties
+	 * Configuration loaded based on trade-validator.properties
 	 */
 	private static Configuration configuration;
 	
 	/**
 	 * 
-	 * @return application context used to retrieve configuration specified in application.context
+	 * @return application context used to retrieve configuration specified in ApplicationContext
 	 */
 	public static Configuration getConfiguration() {
 		if (null == configuration) {
