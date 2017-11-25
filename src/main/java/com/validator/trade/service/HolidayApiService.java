@@ -3,6 +3,7 @@ package com.validator.trade.service;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,6 +44,7 @@ public class HolidayApiService {
      * @param date for which we want to get the information if it is a holiday
      * @return inforation if a given date is a holiday in a given country
      */
+    @Cacheable("holidays")
 	public boolean isHoliday(LocalDate date) {
 		String url = generateURL(date);
 		HolidayResponseMessage response = restTemplate.getForObject(url, HolidayResponseMessage.class);
