@@ -16,8 +16,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class HolidayResponseMessage {
-	
-	private int status;
 	private List<Holiday> holidays;
 
 }

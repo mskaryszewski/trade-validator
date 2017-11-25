@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
  * Useful structure holding entire business requirements configured in trade-validator.properties.
  * Entire configuration of all validators should be configured in that one place (trade-validator.properties),
  * returned by ConfigurationManager and used by validator implementation.
+ * 
  * @author Michal
  *
  */

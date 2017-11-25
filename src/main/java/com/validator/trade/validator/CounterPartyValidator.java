@@ -41,7 +41,7 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 	}
 	
 	/**
-	 * checks if given trade has valid counterparty
+	 * checks if given trade has valid counterParty
 	 */
 	private boolean isValidCounterParty(Trade trade) {
 		loadValidCounterPartiesIfMissing();

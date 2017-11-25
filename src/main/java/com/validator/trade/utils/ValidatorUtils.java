@@ -38,18 +38,6 @@ public class ValidatorUtils {
 	}
 	
 	/**
-	 * Instantiates multiple validator implementations based on a given collection of strings.
-	 * RuntimeException is thrown in case of InstantiationException, IllegalAccessException or ClassNotFoundException.
-	 * @param classNames
-	 * @return
-	 */
-	public static Collection<TradeValidator<Trade>> safeConvertCollectionOfStringToCollectionsOfValidatorInstances(Collection<String> classNames) {
-		return classNames.stream()
-				.map(ValidatorUtils::safeConvertStringToValidatorInstance)
-				.collect(Collectors.toList());
-	}
-	
-	/**
 	 * As a convention all Validator implementations must be placed inside com.validator.trade.validator package.
 	 */
 	private final static String VALIDATOR_IMPLEMENTATION_LOCATION = "com.validator.trade.validator.";
