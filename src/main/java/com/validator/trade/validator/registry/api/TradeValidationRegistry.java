@@ -5,8 +5,8 @@ import java.util.Collection;
 import com.validator.trade.model.Trade;
 import com.validator.trade.validator.TradeValidator;
 
-public interface TradeValidationRegistry {
+public interface TradeValidationRegistry<T extends Trade> {
 	
-	Collection<TradeValidator<Trade>> getValidators(Trade trade);
+	Collection<TradeValidator<T>> getValidators(Trade trade);
 
 }

@@ -26,5 +26,4 @@ public class Configuration {
 	public void setCounterparties(String counterparties) {
 		this.counterparties = counterparties;
 	}
-
 }

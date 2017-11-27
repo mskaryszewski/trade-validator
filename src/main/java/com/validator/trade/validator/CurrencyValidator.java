@@ -2,6 +2,8 @@ package com.validator.trade.validator;
 
 import java.util.Currency;
 
+import org.springframework.stereotype.Component;
+
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -23,6 +25,7 @@ import lombok.ToString;
  *
  */
 @ToString
+@Component
 public class CurrencyValidator implements TradeValidator<Trade> {
 
 	@Override

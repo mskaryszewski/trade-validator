@@ -2,11 +2,13 @@ package com.validator.trade.validator;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.validator.trade.config.ConfigManager;
-import com.validator.trade.config.Configuration;
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -20,12 +22,13 @@ import lombok.ToString;
  *
  */
 @ToString
+@Component
 public class CounterPartyValidator implements TradeValidator<Trade> {
 	
 	/**
 	 * List of validCounterParties configured in trade-validator.properties
 	 */
-	private List<String> validCounterParties = Lists.newArrayList();
+	private final List<String> validCounterParties;
 	
 	@Override
 	public TradeValidationResult validate(Trade trade) {
@@ -40,29 +43,23 @@ public class CounterPartyValidator implements TradeValidator<Trade> {
 		return validationResult;
 	}
 	
+	@Autowired
+	public CounterPartyValidator(@Value("${tradevalidation.counterparties}") String counterparties) {
+		if(!Strings.isNullOrEmpty(counterparties)) {
+			validCounterParties = Splitter
+					.on(",")
+					.trimResults()
+					.omitEmptyStrings()
+					.splitToList(counterparties);
+		} else {
+			validCounterParties = Lists.newArrayList();
+		}
+	}
+	
 	/**
 	 * checks if given trade has valid counterParty
 	 */
 	private boolean isValidCounterParty(Trade trade) {
-		loadValidCounterPartiesIfMissing();
 		return validCounterParties.contains(trade.getCustomer());
-	}
-	
-	/**
-	 * Retrieves valid counterParties from trade-validator.properties.
-	 * List holds already trimmed data - no need to trim it anywhere else.
-	 */
-	private void loadValidCounterPartiesIfMissing() {
-		if(validCounterParties.isEmpty()) {
-			Configuration configuration = ConfigManager.getConfiguration();
-			String counterparties = configuration.getCounterparties();
-			if(!Strings.isNullOrEmpty(counterparties)) {
-				validCounterParties = Splitter
-						.on(",")
-						.trimResults()
-						.omitEmptyStrings()
-						.splitToList(counterparties);
-			}
-		}
 	}
 }

@@ -11,9 +11,9 @@ import com.validator.trade.model.result.TradeValidationResult;
  * @param <ENTITY> Entity to be validated: Trade, Product, Currency.
  * At the time being used only to validate Trades.
  */
-public interface ValidationService {
+public interface ValidationService<T extends Trade> {
 	
-	TradeValidationResult validate(Trade entity);
-	Collection<TradeValidationResult> validateMultiple(Collection<Trade> entities);
+	TradeValidationResult validate(T entity);
+	Collection<TradeValidationResult> validateMultiple(Collection<T> entities);
 	
 }

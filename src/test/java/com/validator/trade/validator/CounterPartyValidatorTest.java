@@ -19,8 +19,9 @@ import com.validator.trade.model.result.ValidationError;
 
 public class CounterPartyValidatorTest {
 	
-	private final CounterPartyValidator validator = new CounterPartyValidator();
 	private final Trade trade = new Spot();
+	
+	private final CounterPartyValidator validator = new CounterPartyValidator("PLUTO1, PLUT02");
 
 	@Test
 	public void supportedCustomerTest() {

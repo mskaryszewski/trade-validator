@@ -1,8 +1,5 @@
 package com.validator.trade.utils;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 import com.validator.trade.model.Trade;
 import com.validator.trade.validator.TradeValidator;
 

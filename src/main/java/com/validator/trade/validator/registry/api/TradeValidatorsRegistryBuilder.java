@@ -7,8 +7,8 @@ import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
 import com.validator.trade.validator.TradeValidator;
 
-public interface TradeValidatorsRegistryBuilder {
+public interface TradeValidatorsRegistryBuilder<T extends Trade> {
 	
-	public Map<TradeType, Collection<TradeValidator<Trade>>> getTradeValidators();
+	public Map<TradeType, Collection<TradeValidator<T>>> getTradeValidators();
 	
 }

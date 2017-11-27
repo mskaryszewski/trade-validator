@@ -2,6 +2,8 @@ package com.validator.trade.validator;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Forward;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -22,6 +24,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Component
 public class ForwardValueDateValidator implements TradeValidator<Forward> {
 	
 	DateProvider dateProvider = new ConstantDateProvider();

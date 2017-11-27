@@ -21,16 +21,16 @@ import com.validator.trade.validator.registry.api.TradeValidatorsRegistryBuilder
  *
  */
 @Component
-public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
+public class TradeValidatorYamlRegistry<T extends Trade> implements TradeValidationRegistry<T> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidatorYamlRegistry.class);	
 	
 	@Autowired
-	private TradeValidatorsRegistryBuilder tradeValidatorsYamlRegistryBuilder;
+	private TradeValidatorsRegistryBuilder<T> tradeValidatorsYamlRegistryBuilder;
 	
-	private Map<TradeType, Collection<TradeValidator<Trade>>> tradeValidators = Maps.newHashMap();
+	private Map<TradeType, Collection<TradeValidator<T>>> tradeValidators = Maps.newHashMap();
 
-	public Map<TradeType, Collection<TradeValidator<Trade>>> getTradeValidators() {
+	public Map<TradeType, Collection<TradeValidator<T>>> getTradeValidators() {
 		return tradeValidators;
 	}
 	
@@ -40,7 +40,7 @@ public class TradeValidatorYamlRegistry implements TradeValidationRegistry {
 	 * @return
 	 */
 	@Override
-	public Collection<TradeValidator<Trade>> getValidators(Trade trade) {
+	public Collection<TradeValidator<T>> getValidators(Trade trade) {
 		return tradeValidators.get(trade.getType());
 	}
 

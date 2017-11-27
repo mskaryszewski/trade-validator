@@ -14,19 +14,18 @@ import com.validator.trade.validator.TradeValidator;
 import com.validator.trade.validator.registry.api.TradeValidationRegistry;
 
 @Service
-public class TradeValidationService implements ValidationService {
+public class TradeValidationService<T extends Trade> implements ValidationService<T> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TradeValidationService.class);	
 	
 	@Autowired
-	TradeValidationRegistry tradeValidatorYamlRegistry;
+	TradeValidationRegistry<T> tradeValidatorYamlRegistry;
 	
-	@Override
-	public TradeValidationResult validate(Trade trade) {
+	public TradeValidationResult validate(T trade) {
 		
 		logger.debug("Trade validation started for trade {}", trade);
 		TradeValidationResult tradeValidationResult = TradeValidationResult.forTrade(trade);
-		Collection<TradeValidator<Trade>> validators = tradeValidatorYamlRegistry.getValidators(trade);
+		Collection<TradeValidator<T>> validators = tradeValidatorYamlRegistry.getValidators(trade);
 		
 		validators.parallelStream()
 				  .map(tradeValidator -> tradeValidator.validate(trade))
@@ -38,8 +37,7 @@ public class TradeValidationService implements ValidationService {
 		return tradeValidationResult;
 	}
 
-	@Override
-	public Collection<TradeValidationResult> validateMultiple(Collection<Trade> entities) {
+	public Collection<TradeValidationResult> validateMultiple(Collection<T> entities) {
 		return entities
 				.parallelStream()
                 .map(this::validate)

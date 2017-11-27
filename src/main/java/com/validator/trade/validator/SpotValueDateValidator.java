@@ -3,6 +3,8 @@ package com.validator.trade.validator;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.stereotype.Component;
+
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Spot;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -23,6 +25,7 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
+@Component
 public class SpotValueDateValidator implements TradeValidator<Spot> {
 	
 	DateProvider dateProvider = new ConstantDateProvider();

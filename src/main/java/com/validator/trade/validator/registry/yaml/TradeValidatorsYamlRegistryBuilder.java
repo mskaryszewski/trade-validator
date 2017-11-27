@@ -5,24 +5,95 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Maps;
 import com.validator.trade.model.Trade;
 import com.validator.trade.model.TradeType;
-import com.validator.trade.utils.ValidatorUtils;
 import com.validator.trade.validator.TradeValidator;
 import com.validator.trade.validator.registry.api.TradeValidatorsConfigReader;
 import com.validator.trade.validator.registry.api.TradeValidatorsRegistryBuilder;
 
 @Component
-public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegistryBuilder  {
+public class TradeValidatorsYamlRegistryBuilder<T extends Trade> implements TradeValidatorsRegistryBuilder<T>  {
 	
+	/**
+	 * ConfigReader which provides a map of trade type to collection of trade validator names.
+	 */
 	@Autowired
 	private TradeValidatorsConfigReader tradeValidatorsYamlConfigReader;
 	
-	private Map<String, Collection<TradeValidator<Trade>>> tradeValidators = Maps.newHashMap();
+	/**
+	 * All implementations of TradeValidator<Trade> interface
+	 */
+	@Autowired
+    Collection<TradeValidator<T>> allTradeValidators;
+	
+	/**
+	 * Final structure which holds a map of trade type and corresponding collection of TradeValidators.
+	 * It is created by applying all implementations of TradeValidator<Trade> interface (allTradeValidators)
+	 * on a parsed application.yml provided by tradeValidatorsYamlConfigReader.
+	 * 
+	 * If a particular validator name specified in application.yml does not exist, an error is thrown.
+	 * If a particular type of trade specified in application.yml does not exist, an error is thrown.
+	 * 
+	 * In fact this error handling should be improved, if any configuration entry is invalid it means
+	 * that Trade Validation Service does not work as expected and we cannot trust it's work.
+	 * In such situation end user should be notified that service is unavailable and application.yml
+	 * should be fixed. 
+	 * 
+	 */
+	private Map<TradeType, Collection<TradeValidator<T>>> tradeValidatorsPerTradeType = Maps.newHashMap();
+
+	/**
+	 * We need to be sure that this logic is called after all dependencies are autowired,
+	 * that's why we cannot implement it inside constructor.
+	 */
+	@PostConstruct
+	private void setupTradeValidators() {
+		
+		Map<String, TradeValidator<T>> tradeValidatorNameToTradeValidator = allTradeValidators
+				.stream()
+				.collect(Collectors.toMap(
+						e -> e.getClass().getSimpleName(),
+						Function.identity()
+						));
+		
+		// create a temporary structure holding type of trade name with assigned validator instances
+		Map<String, Collection<TradeValidator<T>>> validatorNameToTradeValidators = tradeValidatorsYamlConfigReader
+				.getValidatorsForTradeType()
+				.entrySet()
+				.stream()
+				.collect(Collectors.toMap(e -> e.getKey(),
+						validators -> validators.getValue()                        // get each validator name
+							.stream()
+							.map(f -> tradeValidatorNameToTradeValidator.get(f))   // convert validator name to TradeValidator instance
+							.collect(Collectors.toList())                          // collect all Validators to a list
+						));
+
+		// add trade validators from category 'ALL' to validators assigned to specific types of trades
+		validatorNameToTradeValidators.entrySet()
+				.stream()
+				.filter(e -> !ALL.equals(e.getKey().toString()))
+				.forEach(e -> e
+						.getValue()
+						.addAll(validatorNameToTradeValidators.get(ALL)));
+		
+		// remove trade validators for 'ALL' types of trades to keep the structure clean
+		validatorNameToTradeValidators
+				.keySet()
+				.removeIf(validatorName -> ALL.equals(validatorName.toString()));
+		
+		// convert temporary structure to final one used by the applicaton with keys as Enums
+		tradeValidatorsPerTradeType = validatorNameToTradeValidators
+				.entrySet()
+				.stream()
+				.collect(Collectors.toMap(e -> TradeType.valueOf(e.getKey()),
+						Map.Entry::getValue));
+	}
 	
 	/**
 	 * Builds trade to collection of Validators Registry.
@@ -33,83 +104,8 @@ public class TradeValidatorsYamlRegistryBuilder implements TradeValidatorsRegist
 	 * @return Configuration of trade validators for a given type of trade.
 	 */
 	@Override
-	public Map<TradeType, Collection<TradeValidator<Trade>>> getTradeValidators() {
-		return tradeValidators
-					.entrySet()
-					.stream()
-					.filter(e -> !ALL.equals(e.getKey()))
-					.collect(Collectors.toMap(
-							e -> TradeType.valueOf(e.getKey()),
-							Map.Entry::getValue
-				        ));
-	}
-	
-	/**
-	 * Parses application.yml and creates single instances of trade validators.
-	 * Trade validators are assigned to specific type of trades.
-	 * Can throws RuntimeException when a user introduced incorrect configuration - i.e. incorrect Validator class name.
-	 */
-	@Autowired
-	public void setTradeValidators() {
-		Map<String, TradeValidator<Trade>> allValidators = instantiateAllTradeValidators();
-		assignValidatorsForAGivenProductType(allValidators);
-		populateAllTradeValidators();
-	}
-	
-	/**
-	 * Create single instatnces of trade validators.
-	 */
-	private Map<String, TradeValidator<Trade>> instantiateAllTradeValidators() {
-		return tradeValidatorsYamlConfigReader
-			.getValidatorsForTradeType()
-			.values()
-			.stream()
-			.flatMap(Collection::stream)
-			.collect(Collectors.toSet())
-			.stream()
-			.collect(Collectors.toMap(
-					Function.identity(),
-					ValidatorUtils::safeConvertStringToValidatorInstance
-					));
-	}
-	
-	/**
-	 * Trade validators are assigned to a specific type of trades.
-	 * @param allValidators Assures that one validator will not be instantiated multiple times. 
-	 */
-	private void assignValidatorsForAGivenProductType(Map<String, TradeValidator<Trade>> allValidators) {
-		tradeValidators = tradeValidatorsYamlConfigReader
-			.getValidatorsForTradeType()
-			.entrySet()
-			.stream()
-			.collect(Collectors.toMap(
-					Map.Entry::getKey,
-					e -> getValidatorsForAProductType(allValidators, e.getValue())
-					));
-	}
-
-	/**
-	 * @param productTypes
-	 * @return Validator instances for a given type of product.
-	 */
-	private Collection<TradeValidator<Trade>> getValidatorsForAProductType(Map<String, TradeValidator<Trade>> allValidators, Collection<String> productTypes) {
-		return productTypes
-			.stream()
-			.map(e -> allValidators.get(e))
-			.collect(Collectors.toList());
-	}
-	
-	/**
-	 * Populates common validators to all validators specific for a given product type.
-	 * The sequence of validators does not matter (which validators should be used firstly - common ones or tradeType-specific?)
-	 * because always all validators are used.
-	 */
-	private void populateAllTradeValidators() {
-		tradeValidators
-			.entrySet()
-			.stream()
-			.filter(e -> !ALL.equals(e.getKey()))
-			.forEach(e -> e.getValue().addAll(tradeValidators.get(ALL)));
+	public Map<TradeType, Collection<TradeValidator<T>>> getTradeValidators() {
+			return tradeValidatorsPerTradeType;
 	}
 	
 	/**

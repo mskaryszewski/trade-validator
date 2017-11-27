@@ -1,5 +1,7 @@
 package com.validator.trade.validator;
 
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Enums;
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Option;
@@ -15,6 +17,7 @@ import lombok.ToString;
  *
  */
 @ToString
+@Component
 public class OptionStyleValidator implements TradeValidator<Option> {
 
 	@Override

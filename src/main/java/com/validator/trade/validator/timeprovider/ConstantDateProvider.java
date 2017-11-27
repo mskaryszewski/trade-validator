@@ -3,6 +3,8 @@ package com.validator.trade.validator.timeprovider;
 import java.time.LocalDate;
 import java.time.Month;
 
+import lombok.ToString;
+
 /**
  * At the time being only implementation of DateProvider interface.
  * Used to implement the requirement of current_date=09.10.2016
@@ -10,6 +12,7 @@ import java.time.Month;
  * @author Michal
  *
  */
+@ToString
 public class ConstantDateProvider implements DateProvider {
 	@Override
 	public LocalDate getDate() {

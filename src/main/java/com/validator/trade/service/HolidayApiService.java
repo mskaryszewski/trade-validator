@@ -11,6 +11,7 @@ import com.validator.trade.model.holiday.HolidayResponseMessage;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * REST API consumer which sends request to holidayapi.com
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Service
 @Getter
 @Setter
+@ToString
 public class HolidayApiService {
 	
 	/**

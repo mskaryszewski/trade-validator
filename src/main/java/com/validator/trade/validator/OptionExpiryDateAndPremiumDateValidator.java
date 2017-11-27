@@ -2,6 +2,8 @@ package com.validator.trade.validator;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Option;
 import com.validator.trade.model.result.TradeValidationResult;
@@ -15,6 +17,7 @@ import lombok.ToString;
  *
  */
 @ToString
+@Component
 public class OptionExpiryDateAndPremiumDateValidator implements TradeValidator<Option> {
 
 	@Override

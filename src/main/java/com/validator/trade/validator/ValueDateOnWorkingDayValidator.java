@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.validator.trade.model.ErrorNotification;
 import com.validator.trade.model.Trade;
@@ -19,6 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Component
 public class ValueDateOnWorkingDayValidator implements TradeValidator<Trade> {
 	
 	private HolidayApiService holidayApiService;

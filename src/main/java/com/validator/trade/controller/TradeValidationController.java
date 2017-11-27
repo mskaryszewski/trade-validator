@@ -12,18 +12,18 @@ import com.validator.trade.model.result.TradeValidationResult;
 import com.validator.trade.service.ValidationService;
 
 @RestController
-public class TradeValidationController {
+public class TradeValidationController<T extends Trade> {
 
 	@Autowired
-	private ValidationService tradeValidatorService;
+	private ValidationService<T> tradeValidatorService;
 	
 	@PostMapping("/trade")
-	public TradeValidationResult validateTrade(@RequestBody Trade trade) {
+	public TradeValidationResult validateTrade(@RequestBody T trade) {
 		return tradeValidatorService.validate(trade);
 	}
 
 	@PostMapping("/trades")
-	public Collection<TradeValidationResult> validateTrades(@RequestBody Collection<Trade> trades) {
+	public Collection<TradeValidationResult> validateTrades(@RequestBody Collection<T> trades) {
 		return tradeValidatorService.validateMultiple(trades);
 	}
 }
