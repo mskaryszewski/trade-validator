@@ -3,13 +3,13 @@
 This project is a RESTful web service implemented using [Spring Boot](http://projects.spring.io/spring-boot).
 It's main purpose is to expose extensible Trade Validation service.
 
-### Endpoints
+## Endpoints
 `/trade` - validates a single trade using common trade validators defined for all trades as well as specified only for this type of trade. Returns trade with validation status and corresponding error messages  
 `/trades` - validates chunk of trades and returns list of trades with validation status and corresponsing error messages  
 `/shutdown` - graceful shutdown solution using [Spring Boot Actuator module](https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#production-ready-endpoints)  
 `/swagger-ui.html` - documentation of REST API exposed by the service
 
-### Main assumptions, requirements and implemented solutions
+## Main assumptions, requirements and implemented solutions
 
 The service exposes a REST interface consuming trades in JSON format and returning validation result to the client.
 
@@ -64,6 +64,29 @@ There is not much to talk about `Validators` themselves. They just implement pre
 The only thing worth to be mentioned here `Validator` is `ValueDateOnWorkingDayValidator`. It consumes RESTful web service exposed by [holidayapi.com](https://holidayapi.com) by using Spring's `RestTemplate` shipped into `HolidayApiService`.
 
 Thanks to this solution it is validated if trade's valuation date does not fall on weekend. This is the main bottleneck of the Trade Validation solution as it's dependent on external service. Unavailability of [holidayapi.com](https://holidayapi.com) or poor connection may degrade performance significantly. Thanks to introduction of cache using Spring's [@Cacheable](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/cache/annotation/Cacheable.html) solution, the impact of external service is mitigated.
+
+### Configuration
+To add a new configuration reflecting business rules (e.g.: specify a list of valid counterParties), please define it in [trade-validator.properties](src/main/resources/trade-validator.properties).
+```
+tradevalidation.counterparties = PLUTO1,PLUTO2
+```
+
+A good use is implemented in [CounterPartyValidator](src/main/java/com/validator/trade/validator/CounterPartyValidator.java)
+
+```java
+@Autowired
+public CounterPartyValidator(@Value("${tradevalidation.counterparties}") String counterparties) {
+	if(!Strings.isNullOrEmpty(counterparties)) {
+		validCounterParties = Splitter
+				.on(",")
+				.trimResults()
+				.omitEmptyStrings()
+				.splitToList(counterparties);
+	} else {
+		validCounterParties = Lists.newArrayList();
+	}
+}
+```
 
 ## Ways how to run it
 There are two basic alternatives
